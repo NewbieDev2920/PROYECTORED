@@ -28,6 +28,7 @@ class Block {
     if (type == "solid") {
       colliderList.add(col);
       col.centerCollider(position, scale);
+      col.calcCenterPoint();
     } else {
     }
   }
