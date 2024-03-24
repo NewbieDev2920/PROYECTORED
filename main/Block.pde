@@ -20,7 +20,7 @@ class Block {
   }
 
   void display() {
-    fill(255, 0, 0);
+    fill(100);
     rect(position.x, position.y, scale.x, scale.y);
   }
 

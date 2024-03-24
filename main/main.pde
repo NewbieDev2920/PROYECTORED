@@ -20,7 +20,7 @@
 
 Player character = new Player(50, 150, 50, 50);
 Block bloque1 = new Block(20, 300, 600, 50, "solid");
-Block bloque2 = new Block(100, 50, 100, 150, "solid");
+Block bloque2 = new Block(100,250, 30, 50, "solid");
 public ArrayList<Collider> colliderList = new ArrayList<Collider>();
 
 void setup() {
