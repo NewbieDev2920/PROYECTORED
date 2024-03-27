@@ -20,7 +20,7 @@ class Block {
   }
 
   void display() {
-    fill(255, 0, 0);
+    fill(100);
     rect(position.x, position.y, scale.x, scale.y);
   }
 
@@ -28,6 +28,7 @@ class Block {
     if (type == "solid") {
       colliderList.add(col);
       col.centerCollider(position, scale);
+      col.calcCenterPoint();
     } else {
     }
   }
