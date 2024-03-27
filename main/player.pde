@@ -22,7 +22,7 @@ class Player {
 
   void display() {
     fill(25, 25, 255);
-    image(sprite.image,position.x,position.y);
+    image(sprite.image, position.x, position.y);
   }
 
   void move() {
@@ -57,11 +57,11 @@ class Player {
       velocity.y = 0;
     }
   }
-  
-  void applyGravity(){
-   if(!col.collisionFace[3]){
-     velocity.y = 5;
-   }
+
+  void applyGravity() {
+    if (!col.collisionFace[3]) {
+      velocity.y = 5;
+    }
   }
 
   void init() {
@@ -69,5 +69,20 @@ class Player {
     col.centerCollider(position, scale);
     col.borderThickness = 0.2;
     sprite.init();
+    debug.msgList.add(0, "Pos("+position.x+","+position.y+")");
+    debug.msgList.add(1, "Vel("+velocity.x+","+velocity.y+")");
+    debug.msgList.add(2, "speed("+speed+") jumpForce("+jumpForce+")");
+    debug.msgList.add(3, "keyInpt{"+keyboardInput[0]+","+keyboardInput[1]+","+keyboardInput[2]+","+keyboardInput[3]+"}");
+    debug.msgList.add(4, "collFace{"+col.collisionFace[0]+","+col.collisionFace[1]+","+col.collisionFace[2]+","+col.collisionFace[3]+"}");
+    debug.msgList.add(5, "FPS ("+frameRate+")");
+  }
+
+  void updateDebug() {
+    debug.msgList.set(0, "Pos("+position.x+","+position.y+")");
+    debug.msgList.set(1, "Vel("+velocity.x+","+velocity.y+")");
+    debug.msgList.set(2, "speed("+speed+") jumpForce("+jumpForce+")");
+    debug.msgList.set(3, "keyInpt{"+keyboardInput[0]+","+keyboardInput[1]+","+keyboardInput[2]+","+keyboardInput[3]+"}");
+    debug.msgList.set(4, "collFace{"+col.collisionFace[0]+","+col.collisionFace[1]+","+col.collisionFace[2]+","+col.collisionFace[3]+"}");
+    debug.msgList.set(5, "FPS ("+frameRate+")");
   }
 }

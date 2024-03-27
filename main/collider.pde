@@ -40,11 +40,11 @@ class Collider {
           if (target.origin.x <= centerPoint.x && centerPoint.x <= target.origin.x + target.scale.x) {
             if (deltaTarget.y > 0) {
               //abajo
-              text("ABAJO", 400, 15);
+
               collisionFace[3] = true;
             } else {
               //arriba
-              text("ARRIBA", 400, 15);
+
               collisionFace[1] = true;
             }
           }
@@ -52,10 +52,10 @@ class Collider {
 
           if (target.origin.y <= centerPoint.y && centerPoint.y <= target.origin.y + target.scale.y) {
             if (deltaTarget.x > 0) {
-              text("DERECHA", 400, 15);
+
               collisionFace[0] = true;
             } else {
-              text("IZQUIERDA", 400, 15);
+
               collisionFace[2] = true;
             }
           }
