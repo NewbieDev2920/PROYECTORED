@@ -10,7 +10,6 @@
  DESARROLLADORES
  #  ALEJANDRO CUELLO
  #  CARLOS DE LA ROSA
- #  ?
  PROFESOR
  #  DALADIER
  SPRITES
@@ -20,29 +19,37 @@
  
  */
 
-Player character = new Player(50, 150, 50, 50);
-Block bloque1 = new Block(20, 300, 600, 50, "solid");
-Block bloque2 = new Block(100, 250, 30, 50, "solid");
+//Paquetes
+//------------------------------------------------------------
+import ptmx.*;
+//------------------------------------------------------------
+
+
+//Inicializacion de objetos
+//------------------------------------------------------------
+GameManager gm = new GameManager();
+Player character = new Player(2, 2, 50, 50);
 Debug debug = new Debug("bottomLeft", 250, 300);
 public ArrayList<Collider> colliderList = new ArrayList<Collider>();
+Ptmx mapFile;
+//------------------------------------------------------------
 
 void setup() {
   fullScreen();
+  mapFile = new Ptmx(this, "tileddemo1.tmx");
+  gm.addCollidersToMap(mapFile);
   debug.enabled = true;
   debug.init();
-  bloque1.init();
-  bloque2.init();
   character.init();
 }
 
 void draw() {
-  background(230);
-  bloque1.display();
-  bloque2.display();
+  mapFile.draw();
   character.updateDebug();
   character.move();
   character.display();
   debug.display();
+  
 }
 
 //--------------------------------------------------
