@@ -18,11 +18,6 @@ String currentScene = "mainmenu";
 
 void setup() {
   //fullScreen();
-  File file = new File(".");
-  String[] fileList = file.list();
-  for(String name : fileList){
-    println(name);
-  }
   size(982, 572);
   background(0);
   splash = loadImage("splashscreen.jpg");
@@ -48,6 +43,23 @@ void draw() {
     }
   }
   else if(currentScene == "browser"){
-    
+    fill(50);
+    rect(width/4,157,width/2, width/2);
+    listButtons(browseMaps());
+  }
+}
+
+String[] browseMaps(){
+   File file = new File("../../PROYECTOALGO2/maps/campaign");
+   String[] fileList = file.list();
+   return fileList;
+}
+
+void listButtons(String[] list){
+  float gap = 55;
+  for(int i = 0; i < list.length; i++){
+    Button mapButton = new Button(width/4+gap, 157+gap*i, 200, 50, list[i]);
+    mapButton.text = list[i];
+    mapButton.display();
   }
 }

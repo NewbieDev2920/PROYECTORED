@@ -17,11 +17,11 @@
             "scaleInEditor": 1
         },
         "tileddemo1.tmx": {
-            "scale": 1.5,
+            "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 255.66666666666663,
-                "y": 261.66666666666663
+                "x": 395.5,
+                "y": 174.5
             }
         },
         "tileddemo1.tmx#grasslands": {

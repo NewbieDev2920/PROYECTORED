@@ -2,13 +2,15 @@ class Player {
   Sprite sprite = new Sprite();
   PVector position = new PVector();
   PVector velocity = new PVector();
-  float speed =5;
-  float jumpForce = 124;
   PVector scale = new PVector();
+  float speed =5;
+  //Distance/frames (60 frames = 1s)
+  float jumpForce = 7;
+  boolean jumping;
+  int time;
+ 
   //0: Right, 1: Up, 2: Left, 3: Down
   boolean[] keyboardInput = {false, false, false, false};
-  String type = "player";
-  int id;
   Collider col;
 
 
@@ -29,6 +31,7 @@ class Player {
     calcVelocity();
     applyGravity();
     position.x += velocity.x;
+    jump();
     position.y += velocity.y;
     col.origin.x = position.x + col.centerGap.x;
     col.origin.y = position.y + col.centerGap.y;
@@ -50,7 +53,8 @@ class Player {
     if (keyboardInput[1] && keyboardInput[3]) {
       velocity.y = 0;
     } else if (keyboardInput[1] && !col.collisionFace[1]) {
-      velocity.y = -jumpForce;
+      //Jump
+      
     } else if (keyboardInput[3] && !col.collisionFace[3]) {
       velocity.y = speed;
     } else {
@@ -85,4 +89,22 @@ class Player {
     debug.msgList.set(4, "collFace{"+col.collisionFace[0]+","+col.collisionFace[1]+","+col.collisionFace[2]+","+col.collisionFace[3]+"}");
     debug.msgList.set(5, "FPS ("+frameRate+")");
   }
+  
+  void jump(){
+    if(jumping){
+      velocity.y = -jumpForce;
+    }
+    else{
+      time = millis(); 
+    }
+    
+    if(millis() > time+150){
+      jumping = false; 
+    }
+    
+  }
+  
+  
+  
+  
 }

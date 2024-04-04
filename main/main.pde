@@ -49,7 +49,6 @@ void draw() {
   character.move();
   character.display();
   debug.display();
-  
 }
 
 //--------------------------------------------------
@@ -59,6 +58,7 @@ void keyPressed() {
   if (key == 'd' || keyCode == RIGHT) {
     character.keyboardInput[0] = true;
   } else if (key == 'w' || keyCode == UP) {
+    character.jumping = true;
     character.keyboardInput[1] = true;
   } else if ( key == 'a' || keyCode == LEFT) {
     character.keyboardInput[2] = true;
