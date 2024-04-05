@@ -3,12 +3,13 @@ class Player {
   PVector position = new PVector();
   PVector velocity = new PVector();
   PVector scale = new PVector();
-  float speed =5;
+  float speed =4;
   //Distance/frames (60 frames = 1s)
   float jumpForce = 7;
   boolean jumping;
   int time;
- 
+  Clock clock = new Clock();
+
   //0: Right, 1: Up, 2: Left, 3: Down
   boolean[] keyboardInput = {false, false, false, false};
   Collider col;
@@ -53,8 +54,10 @@ class Player {
     if (keyboardInput[1] && keyboardInput[3]) {
       velocity.y = 0;
     } else if (keyboardInput[1] && !col.collisionFace[1]) {
-      //Jump
-      
+      //Jump, resolver problema de colliders al saltar
+      if (character.col.collisionFace[3]) {
+        character.jumping = true;
+      }
     } else if (keyboardInput[3] && !col.collisionFace[3]) {
       velocity.y = speed;
     } else {
@@ -89,22 +92,17 @@ class Player {
     debug.msgList.set(4, "collFace{"+col.collisionFace[0]+","+col.collisionFace[1]+","+col.collisionFace[2]+","+col.collisionFace[3]+"}");
     debug.msgList.set(5, "FPS ("+frameRate+")");
   }
-  
-  void jump(){
-    if(jumping){
+
+  void jump() {
+
+    if (jumping) {
       velocity.y = -jumpForce;
+    }else{
+      clock.updateTime(); 
     }
-    else{
-      time = millis(); 
+
+    if (clock.timeElapsed(250) || col.collisionFace[1]) {
+      jumping = false;
     }
-    
-    if(millis() > time+150){
-      jumping = false; 
-    }
-    
   }
-  
-  
-  
-  
 }

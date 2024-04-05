@@ -47,6 +47,19 @@ void draw() {
     rect(width/4,157,width/2, width/2);
     listButtons(browseMaps());
   }
+  else if(currentScene == "settings"){
+    fill(255,255,0);
+    rect(width/4,157,width/2, width/2);
+ 
+  }
+  else if(currentScene == "credits"){
+    fill(50);
+    rect(width/4,157,width/2, width/2);
+    fill(240,20,20);
+    text("DESARROLLADORES : ALEJANDRO CUELLO, CARLOS DE LA ROSA, DALADIER",width/4+50,157+50);
+    text("SPRITES : @acewaydev, @Darkeyed19 @ @ScatteredReality",width/4+50,157+100);
+    text("MUSICA : LUCA FRANCINI",width/4+50,157+150);
+  }
 }
 
 String[] browseMaps(){
