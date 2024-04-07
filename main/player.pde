@@ -94,11 +94,10 @@ class Player {
   }
 
   void jump() {
-
     if (jumping) {
       velocity.y = -jumpForce;
-    }else{
-      clock.updateTime(); 
+    } else {
+      clock.updateTime();
     }
 
     if (clock.timeElapsed(250) || col.collisionFace[1]) {
