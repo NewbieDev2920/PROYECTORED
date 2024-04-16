@@ -1,24 +1,44 @@
-import processing.data.XML; //<>//
+import processing.data.XML; //<>// //<>// //<>//
 import java.util.*;
 
+
 class Map {
+  Dictionary<String, PImage> tileDict = new Hashtable<>();
   int mapWidth, mapHeight, tileWidth, tileHeight;
   //campaign or custom
   String type;
   XML xml;
   XML[] objectGroup;
   XML[] colObjects;
-  ArrayList<PImage> tileSheets = new ArrayList<PImage>();
+  Dictionary<String, PImage> tileSheets = new Hashtable<>();
+  //ArrayList<PImage> tileSheets = new ArrayList<PImage>();
+  //String[] firstIDs;
   ArrayList<XML> tsxFiles = new ArrayList<XML>();
   static final String SPRITEPATH = "../assets/sprites/";
-  String[][] solidMatrix;
-  String[][] decorationMatrix;
+  String[] solidPseudoMatrix;
+  String[] decorationPseudoMatrix;
 
   Map(String type) {
     this.type = type;
     if (type != "campaign") {
       this.type = "custom";
     }
+  }
+  
+  void paint(){
+   //POSIBLE ERRROR DE TILE MAL DIBUJADO
+   String ID;
+   PImage sprite;
+   for(int i = 0; i < mapHeight; i++){
+      for(int j = 0; j < mapWidth; j++){
+        ID = solidPseudoMatrix[i*(mapWidth-1)+j+i];
+        if(!ID.equals("0")){
+         sprite = tileDict.get(ID);
+         image(sprite,tileWidth*j, tileHeight*i);
+        }
+        
+      }
+   }
   }
 
   void addCollision() {
@@ -45,8 +65,8 @@ class Map {
     tileWidth = xml.getInt("tilewidth");
     tileHeight = xml.getInt("tileheight");
 
-    solidMatrix = new String[mapWidth][mapHeight];
-    decorationMatrix = new String[mapWidth][mapHeight];
+    solidPseudoMatrix = new String[mapWidth*mapHeight];
+    decorationPseudoMatrix = new String[mapWidth*mapHeight];
 
     objectGroup = xml.getChildren("objectgroup");
     for (int i = 0; i < objectGroup.length; i++) {
@@ -57,7 +77,7 @@ class Map {
     addCollision();
   }
 
-  void loadTiles() {
+  void loadTileSheets() {
     String prePath = "custom";
 
     if (type == "campaign") {
@@ -67,9 +87,11 @@ class Map {
     }
 
     XML[] xmlTileSets = xml.getChildren("tileset");
+    String[] firstIDs = new String[xmlTileSets.length];
     String tsxPath;
     for (int i = 0; i < xmlTileSets.length; i++) {
       tsxPath = xmlTileSets[i].getString("source");
+      firstIDs[i] = xmlTileSets[i].getString("firstgid");
       tsxFiles.add(loadXML(prePath+tsxPath));
     }
 
@@ -91,43 +113,49 @@ class Map {
         }
       }
       newPath = tsxFiles.get(i).getChild("image").getString("source").substring(stringI, cuttingPath.length);
-      println(newPath);
+
       sheet = loadImage(SPRITEPATH+(new String(newPath)));
-      println(SPRITEPATH+(new String(newPath)));
-      tileSheets.add(sheet);
+
+      tileSheets.put(firstIDs[i], sheet);
     }
   }
 
   void loadMapMatrix() {
     XML[] layers =  xml.getChildren("layer");
-    String[] data;
     for (int i = 0; i < layers.length; i++) {
       if (layers[i].getString("name").equals("SOLIDOS")) {
-        data = layers[i].getChild("data").getContent().split(",");
-
-        for (int j = 0; j < mapHeight; j++) {
-          for (int k = 0; k < mapWidth; k++) {
-            solidMatrix[k][j] = data[k+j];
-          }
-        }
+        solidPseudoMatrix = layers[i].getChild("data").getContent().split(",");
+        print(solidPseudoMatrix);
       } else if (layers[i].getString("name").equals("DECORACION")) {
-        data = layers[i].getChild("data").getContent().split(",");
-
-        for (int j = 0; j < mapHeight; j++) {
-          for (int k = 0; k < mapWidth; k++) {
-            decorationMatrix[k][j] = data[k+j];
-          }
-        }
+        decorationPseudoMatrix = layers[i].getChild("data").getContent().split(",");
+        
       } else {
         println("This type of layer doesn't exists");
       }
     }
-    println("w"+mapWidth);
-    println("h"+mapHeight);
+  }
+
+  void loadTiles() {
+    //POSIBLE ERROR DE TILE INCORRECTO
+    PImage tileSprite;
+    String ID;
+    ArrayList<String> keys = Collections.list(tileSheets.keys());
     for (int i = 0; i < mapHeight; i++) {
-      for (int j = 0; j < mapWidth; j++) { 
-      print(solidMatrix[i][j]);
+      for (int j = 0; j < mapWidth; j++) {
+        ID = solidPseudoMatrix[i*(mapWidth-1)+j+i];
+        if (!ID.equals("0")) {
+          for (int k = 0; k < tileSheets.size(); k++) { //<>//
+            if (k == keys.size()-1) {
+              tileSprite = tileSheets.get(keys.get(k)).get(tileWidth*j, tileHeight*i, tileWidth, tileHeight);
+              tileDict.put(ID, tileSprite);
+            } else if (Integer.parseInt(ID) >= Integer.parseInt(keys.get(k)) && Integer.parseInt(ID) <= Integer.parseInt(keys.get(k+1))) {
+              tileSprite = tileSheets.get(keys.get(k)).get(tileWidth*j, tileHeight*i, tileWidth, tileHeight);
+              tileDict.put(ID, tileSprite);
+            }
+          }
+        }
       }
     }
   }
+  
 }

@@ -41,18 +41,17 @@ Player character = new Player(2, 2, 50, 50);
 Debug debug = new Debug("bottomLeft", 250, 300);
 public ArrayList<Collider> colliderList = new ArrayList<Collider>();
 Ptmx mapFile;
-Map map;
+Map map = new Map("campaign");;
 PImage testImage;
 //------------------------------------------------------------
 
 void setup() {
   fullScreen(P3D);
   smooth(0);
-  Map map = new Map("campaign");
   map.init("../maps/campaign/testmap2.tmx");
-  map.loadTiles();
+  map.loadTileSheets();
   map.loadMapMatrix();
-  testImage = map.tileSheets.get(0);
+  map.loadTiles();
   //mapFile = new Ptmx(this, "tileddemo1.tmx");
   //gm.addCollidersToMap(mapFile);
   debug.enabled = true;
@@ -61,15 +60,15 @@ void setup() {
 }
 
 void draw() {
-  background(255);
+  background(255); //<>//
   //mapFile.draw();
-  image(testImage,0,0);
+  map.paint();
   character.updateDebug();
   character.move();
   character.display();
   gm.centerCamera(character);
   debug.display();
-  camera(character.position.x,character.position.y,1000,character.position.x,character.position.y,0,0,1,0);
+  camera(character.position.x,character.position.y,300,character.position.x,character.position.y,0,0,1,0);
 }
 
 //--------------------------------------------------
