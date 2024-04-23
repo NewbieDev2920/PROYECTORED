@@ -1,4 +1,4 @@
-import processing.data.XML; //<>// //<>// //<>//
+import processing.data.XML; //<>// //<>// //<>// //<>//
 import java.util.*;
 
 
@@ -24,21 +24,20 @@ class Map {
       this.type = "custom";
     }
   }
-  
-  void paint(){
-   //POSIBLE ERRROR DE TILE MAL DIBUJADO
-   String ID;
-   PImage sprite;
-   for(int i = 0; i < mapHeight; i++){
-      for(int j = 0; j < mapWidth; j++){
+
+  void paint() {
+    //POSIBLE ERRROR DE TILE MAL DIBUJADO
+    String ID;
+    PImage sprite;
+    for (int i = 0; i < mapHeight; i++) {
+      for (int j = 0; j < mapWidth; j++) {
         ID = solidPseudoMatrix[i*(mapWidth-1)+j+i];
-        if(!ID.equals("0")){
-         sprite = tileDict.get(ID);
-         image(sprite,tileWidth*j, tileHeight*i);
+        if (!ID.equals("0")) {
+          sprite = tileDict.get(ID);
+          image(sprite, tileWidth*j, tileHeight*i);
         }
-        
       }
-   }
+    }
   }
 
   void addCollision() {
@@ -128,7 +127,6 @@ class Map {
         print(solidPseudoMatrix);
       } else if (layers[i].getString("name").equals("DECORACION")) {
         decorationPseudoMatrix = layers[i].getChild("data").getContent().split(",");
-        
       } else {
         println("This type of layer doesn't exists");
       }
@@ -139,23 +137,48 @@ class Map {
     //POSIBLE ERROR DE TILE INCORRECTO
     PImage tileSprite;
     String ID;
+    println("---");
     ArrayList<String> keys = Collections.list(tileSheets.keys());
     for (int i = 0; i < mapHeight; i++) {
       for (int j = 0; j < mapWidth; j++) {
         ID = solidPseudoMatrix[i*(mapWidth-1)+j+i];
         if (!ID.equals("0")) {
-          for (int k = 0; k < tileSheets.size(); k++) { //<>//
-            if (k == keys.size()-1) {
-              tileSprite = tileSheets.get(keys.get(k)).get(tileWidth*j, tileHeight*i, tileWidth, tileHeight);
-              tileDict.put(ID, tileSprite);
-            } else if (Integer.parseInt(ID) >= Integer.parseInt(keys.get(k)) && Integer.parseInt(ID) <= Integer.parseInt(keys.get(k+1))) {
-              tileSprite = tileSheets.get(keys.get(k)).get(tileWidth*j, tileHeight*i, tileWidth, tileHeight);
-              tileDict.put(ID, tileSprite);
-            }
+          println(ID);
+          //EL PROBLEMA ESTA EN EL PIMAGE.GET()
+          for (int k = 0; k < tileSheets.size(); k++) {
+            PImage tileSheet = tileSheets.get(keys.get(k));
+            int[] pos = mapIdtoSheetId(ID, tileSheet);
+            tileSprite = tileSheet.get(tileWidth*(pos[0]-1), tileHeight*pos[1], tileWidth, tileHeight);
+            tileDict.put(ID, tileSprite);
+            /*if (k == keys.size()-1) {
+             tileSprite = tileSheets.get(keys.get(k)).get(tileWidth*j, tileHeight*i, tileWidth, tileHeight);
+             tileDict.put(ID, tileSprite);
+             } else if (Integer.parseInt(ID) >= Integer.parseInt(keys.get(k)) && Integer.parseInt(ID) <= Integer.parseInt(keys.get(k+1))) {
+             tileSprite = tileSheets.get(keys.get(k)).get(tileWidth*j, tileHeight*i, tileWidth, tileHeight);
+             tileDict.put(ID, tileSprite);*/
           }
         }
       }
     }
   }
-  
+
+  int[] mapIdtoSheetId(String tileid, PImage sheet) {
+    int integer = 0;
+    try{
+      integer = Integer.parseInt(tileid);
+    }
+    catch(Exception e){
+      println("papi que cule error ya?");
+    }
+    
+
+    int linebreak = sheet.width/tileWidth;
+    int row = (int)Math.floor(integer/linebreak);
+    int column = (int)(integer-row*linebreak);
+    int[] pos = new int[2];
+    pos[0] = column;
+    pos[1] = row;
+
+    return pos;
+  }
 }

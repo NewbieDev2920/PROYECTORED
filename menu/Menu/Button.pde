@@ -20,7 +20,8 @@ class Button {
     if(mouseX > position.x && mouseX < position.x + scale.x && mouseY > position.y && mouseY < position.y + scale.y){
       hoverEffect();
       if(mousePressed){
-        return true;  
+        return true;
+        
       }
       return false;
     }

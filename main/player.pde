@@ -25,7 +25,6 @@ class Player {
 
   void display() {
     fill(25, 25, 255);
-    image(sprite.image, position.x, position.y);
   }
 
   void move() {
@@ -37,6 +36,7 @@ class Player {
     col.origin.x = position.x + col.centerGap.x;
     col.origin.y = position.y + col.centerGap.y;
     col.checkCollision();
+    sprite.display(position);
   }
 
   void calcVelocity() {
@@ -75,7 +75,7 @@ class Player {
     col = new Collider(position.x, position.y, scale.x, scale.y, "mobile");
     col.centerCollider(position, scale);
     col.borderThickness = 0.2;
-    sprite.init();
+    sprite.init("character");
     debug.msgList.add(0, "Pos("+position.x+","+position.y+")");
     debug.msgList.add(1, "Vel("+velocity.x+","+velocity.y+")");
     debug.msgList.add(2, "speed("+speed+") jumpForce("+jumpForce+")");

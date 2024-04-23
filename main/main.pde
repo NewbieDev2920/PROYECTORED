@@ -1,4 +1,4 @@
-/*
+/* //<>//
  ---------------------------
  | PROYECTO ALGORITMIA 2   |
  | VIDEOJUEGO ESTILO SONIC |
@@ -10,6 +10,7 @@
  DESARROLLADORES
  #  ALEJANDRO CUELLO
  #  CARLOS DE LA ROSA
+ #  MARIA ANGEL MARTINEZ
  PROFESOR
  #  DALADIER
  SPRITES
@@ -20,10 +21,9 @@
  ASPECTOS A DESARROLLAR
  ------------------------
  $ Mejorar el sistema de colisiones
- $ Sistema de camara
  $ Añadir animaciones
  $ Añadir sistema de audio
- $Mapa
+ $ Mapa pulir
  
  */
 
@@ -41,11 +41,13 @@ Player character = new Player(2, 2, 50, 50);
 Debug debug = new Debug("bottomLeft", 250, 300);
 public ArrayList<Collider> colliderList = new ArrayList<Collider>();
 Ptmx mapFile;
-Map map = new Map("campaign");;
+Map map = new Map("campaign");
+
 PImage testImage;
 //------------------------------------------------------------
 
 void setup() {
+  textSize(8);
   fullScreen(P3D);
   smooth(0);
   map.init("../maps/campaign/testmap2.tmx");
@@ -60,7 +62,7 @@ void setup() {
 }
 
 void draw() {
-  background(255); //<>//
+  background(179,215,255);
   //mapFile.draw();
   map.paint();
   character.updateDebug();
@@ -68,7 +70,7 @@ void draw() {
   character.display();
   gm.centerCamera(character);
   debug.display();
-  camera(character.position.x,character.position.y,300,character.position.x,character.position.y,0,0,1,0);
+  camera(character.position.x, character.position.y, 300, character.position.x, character.position.y, 0, 0, 1, 0);
 }
 
 //--------------------------------------------------
