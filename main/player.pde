@@ -1,4 +1,7 @@
 class Player {
+  public int hearts = 3;
+  public int soulScore = 0;
+  boolean isInvincible = false;
   Sprite sprite = new Sprite();
   PVector position = new PVector();
   PVector velocity = new PVector();
@@ -36,6 +39,7 @@ class Player {
     col.origin.x = position.x + col.centerGap.x;
     col.origin.y = position.y + col.centerGap.y;
     col.checkCollision();
+    col.checkInteraction();
     sprite.display(position);
   }
 
@@ -75,22 +79,22 @@ class Player {
     col = new Collider(position.x, position.y, scale.x, scale.y, "mobile");
     col.centerCollider(position, scale);
     col.borderThickness = 0.2;
-    sprite.init("character");
-    debug.msgList.add(0, "Pos("+position.x+","+position.y+")");
-    debug.msgList.add(1, "Vel("+velocity.x+","+velocity.y+")");
-    debug.msgList.add(2, "speed("+speed+") jumpForce("+jumpForce+")");
-    debug.msgList.add(3, "keyInpt{"+keyboardInput[0]+","+keyboardInput[1]+","+keyboardInput[2]+","+keyboardInput[3]+"}");
-    debug.msgList.add(4, "collFace{"+col.collisionFace[0]+","+col.collisionFace[1]+","+col.collisionFace[2]+","+col.collisionFace[3]+"}");
-    debug.msgList.add(5, "FPS ("+frameRate+")");
+    sprite.init("player/default.png");
+    gui.msgList.add(0, "Pos("+position.x+","+position.y+")");
+    gui.msgList.add(1, "Vel("+velocity.x+","+velocity.y+")");
+    gui.msgList.add(2, "speed("+speed+") jumpForce("+jumpForce+")");
+    gui.msgList.add(3, "keyInpt{"+keyboardInput[0]+","+keyboardInput[1]+","+keyboardInput[2]+","+keyboardInput[3]+"}");
+    gui.msgList.add(4, "collFace{"+col.collisionFace[0]+","+col.collisionFace[1]+","+col.collisionFace[2]+","+col.collisionFace[3]+"}");
+    gui.msgList.add(5, "FPS ("+frameRate+")");
   }
 
   void updateDebug() {
-    debug.msgList.set(0, "Pos("+position.x+","+position.y+")");
-    debug.msgList.set(1, "Vel("+velocity.x+","+velocity.y+")");
-    debug.msgList.set(2, "speed("+speed+") jumpForce("+jumpForce+")");
-    debug.msgList.set(3, "keyInpt{"+keyboardInput[0]+","+keyboardInput[1]+","+keyboardInput[2]+","+keyboardInput[3]+"}");
-    debug.msgList.set(4, "collFace{"+col.collisionFace[0]+","+col.collisionFace[1]+","+col.collisionFace[2]+","+col.collisionFace[3]+"}");
-    debug.msgList.set(5, "FPS ("+frameRate+")");
+    gui.msgList.set(0, "Pos("+position.x+","+position.y+")");
+    gui.msgList.set(1, "Vel("+velocity.x+","+velocity.y+")");
+    gui.msgList.set(2, "speed("+speed+") jumpForce("+jumpForce+")");
+    gui.msgList.set(3, "keyInpt{"+keyboardInput[0]+","+keyboardInput[1]+","+keyboardInput[2]+","+keyboardInput[3]+"}");
+    gui.msgList.set(4, "collFace{"+col.collisionFace[0]+","+col.collisionFace[1]+","+col.collisionFace[2]+","+col.collisionFace[3]+"}");
+    gui.msgList.set(5, "FPS ("+frameRate+")");
   }
 
   void jump() {

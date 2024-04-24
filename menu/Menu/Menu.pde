@@ -27,6 +27,7 @@ void setup() {
 }
 
 void draw() {
+  play.display();
   if (currentScene == "mainmenu") {
     image(background, 13, 0);
     //image(minitest,50,50);

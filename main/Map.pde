@@ -14,7 +14,7 @@ class Map {
   //ArrayList<PImage> tileSheets = new ArrayList<PImage>();
   //String[] firstIDs;
   ArrayList<XML> tsxFiles = new ArrayList<XML>();
-  static final String SPRITEPATH = "../assets/sprites/";
+  static final String SPRITEPATH = "../assets/sprites/map/";
   String[] solidPseudoMatrix;
   String[] decorationPseudoMatrix;
 
