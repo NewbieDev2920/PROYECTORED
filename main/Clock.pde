@@ -5,7 +5,7 @@ class Clock {
   void updateTime() {
     timerStart = millis();
   }
-  
+
   boolean timeElapsed(int limit) {
     if (!locked) {
       updateTime();

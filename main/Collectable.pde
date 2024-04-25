@@ -15,6 +15,7 @@ class Collectable {
     this.scale.y = h;
     if (type == "soul") {
       spritePath = spritePath+type+".png";
+      println(spritePath);
       soulList.add(this);
     } else if (type == "powerup") {
       spritePath = spritePath+"NOT AVALIABLE YET"+"png";

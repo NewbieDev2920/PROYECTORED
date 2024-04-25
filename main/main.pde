@@ -44,7 +44,9 @@ public ArrayList<Collectable> soulList = new ArrayList<Collectable>();
 public ArrayList<Obstacle> obstacleList = new ArrayList<Obstacle>();
 Map map = new Map("campaign");
 Collectable soul1 = new Collectable();
+Collectable soul2 = new Collectable();
 Obstacle spike1 = new Obstacle();
+FinishLine door = new FinishLine();
 
 PImage testImage;
 //------------------------------------------------------------
@@ -63,25 +65,47 @@ void setup() {
   gui.debugEnabled = true;
   gui.init();
   character.init();
-  soul1.init("soul",  110,170,16,16);
-  spike1.init("spike", 400, 200, 16,16);
+  soul1.init("soul", 600, 200, 16, 16);
+  soul2.init("soul", 700,200,16,16);
+  spike1.init("spike", 400, 200, 16, 16);
+  door.init("level",800, 200, 16, 16);
 }
 
 void draw() {
-  
-  background(179,215,255);
-  //mapFile.draw();
-  map.paint();
-  character.updateDebug();
-  soul1.checkInteraction();
-  spike1.checkInteraction();
-  character.move();
-  character.display();
-  gm.centerCamera(character);
-  gui.updatePosition(character.position);
-  gui.debugDisplay();
-  gui.displayGameData(character.hearts, character.soulScore);
-  camera(character.position.x, character.position.y, 400, character.position.x, character.position.y, 0, 0, 1, 0);
+  if (gui.currentScene == "game") {
+    background(179, 215, 255);
+    //mapFile.draw();
+    map.paint();
+    character.updateDebug();
+    soul1.checkInteraction();
+    soul2.checkInteraction();
+    spike1.checkInteraction();
+    door.checkInteraction();
+    character.move();
+    character.display();
+    gm.centerCamera(character);
+    gm.checkStatus();
+    gui.updatePosition(character.position);
+    gui.debugDisplay();
+    gui.displayGameData(character.hearts, character.soulScore);
+    camera(character.position.x, character.position.y, 400, character.position.x, character.position.y, 0, 0, 1, 0);
+  }
+  else if(gui.currentScene == "dead"){
+    gui.deadScreen();
+    camera(character.position.x, character.position.y, 1500, character.position.x, character.position.y, 0, 0, 1, 0);
+  }
+  else if(gui.currentScene == "victory"){
+    gui.victoryScreen();
+    camera(character.position.x, character.position.y, 1500, character.position.x, character.position.y, 0, 0, 1, 0);
+  }
+  else if(gui.currentScene == "shop"){
+    gui.shopScreen();
+    camera(character.position.x, character.position.y, 1500, character.position.x, character.position.y, 0, 0, 1, 0);
+    
+  }
+  else{
+     println("Scene: "+gui.currentScene+" doesn't exists"); 
+  }
 }
 
 //--------------------------------------------------
@@ -97,6 +121,9 @@ void keyPressed() {
   } else if (key == 's' || keyCode == DOWN) {
     character.keyboardInput[3] = true;
   }
+  else if(keyCode == ENTER){
+     character.keyboardInput[4] = true; 
+  }
 }
 
 void keyReleased() {
@@ -108,6 +135,9 @@ void keyReleased() {
     character.keyboardInput[2] = false;
   } else if (key == 's' || keyCode == DOWN) {
     character.keyboardInput[3] = false;
+  }
+  else if(keyCode == ENTER){
+      character.keyboardInput[4] = false;
   }
 }
 //--------------------------------------------------

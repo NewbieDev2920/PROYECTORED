@@ -1,6 +1,6 @@
 class Player {
-  public int hearts = 3;
-  public int soulScore = 0;
+  int hearts = 3;
+  int soulScore = 0;
   boolean isInvincible = false;
   Sprite sprite = new Sprite();
   PVector position = new PVector();
@@ -14,8 +14,8 @@ class Player {
   Clock jumpClock = new Clock();
   Clock invincibleClock = new Clock();
 
-  //0: Right, 1: Up, 2: Left, 3: Down
-  boolean[] keyboardInput = {false, false, false, false};
+  //0: Right, 1: Up, 2: Left, 3: Down, 4: Enter
+  boolean[] keyboardInput = {false, false, false, false, false};
   Collider col;
 
 
@@ -32,17 +32,19 @@ class Player {
   }
 
   void move() {
-    calcVelocity();
-    applyGravity();
-    position.x += velocity.x;
-    jump();
-    position.y += velocity.y;
-    col.origin.x = position.x + col.centerGap.x;
-    col.origin.y = position.y + col.centerGap.y;
-    col.checkCollision();
-    col.checkInteraction();
-    sprite.display(position);
-    checkInvincibleEffect();
+    if (gui.currentScene == "game") {
+      calcVelocity();
+      applyGravity();
+      position.x += velocity.x;
+      jump();
+      position.y += velocity.y;
+      col.origin.x = position.x + col.centerGap.x;
+      col.origin.y = position.y + col.centerGap.y;
+      col.checkCollision();
+      col.checkInteraction();
+      sprite.display(position);
+      checkInvincibleEffect();
+    }
   }
 
   void calcVelocity() {

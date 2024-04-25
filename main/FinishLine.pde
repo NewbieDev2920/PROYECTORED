@@ -41,7 +41,7 @@ class FinishLine{
    void effect(){
      if(type == "level"){
        character.isInvincible = true;
-       gui.currentScene = "won";
+       gui.currentScene = "victory";
      }
      else if(type == "boss"){
        
