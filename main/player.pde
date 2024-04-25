@@ -11,7 +11,8 @@ class Player {
   float jumpForce = 7;
   boolean jumping;
   int time;
-  Clock clock = new Clock();
+  Clock jumpClock = new Clock();
+  Clock invincibleClock = new Clock();
 
   //0: Right, 1: Up, 2: Left, 3: Down
   boolean[] keyboardInput = {false, false, false, false};
@@ -41,6 +42,7 @@ class Player {
     col.checkCollision();
     col.checkInteraction();
     sprite.display(position);
+    checkInvincibleEffect();
   }
 
   void calcVelocity() {
@@ -75,6 +77,15 @@ class Player {
     }
   }
 
+  void checkInvincibleEffect() {
+    if (isInvincible) {
+
+      if (invincibleClock.timeElapsed(1000)) {
+        isInvincible = false;
+      }
+    }
+  }
+
   void init() {
     col = new Collider(position.x, position.y, scale.x, scale.y, "mobile");
     col.centerCollider(position, scale);
@@ -101,10 +112,10 @@ class Player {
     if (jumping) {
       velocity.y = -jumpForce;
     } else {
-      clock.updateTime();
+      jumpClock.updateTime();
     }
 
-    if (clock.timeElapsed(250) || col.collisionFace[1]) {
+    if (jumpClock.timeElapsed(250) || col.collisionFace[1]) {
       jumping = false;
     }
   }

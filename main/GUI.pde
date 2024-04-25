@@ -7,6 +7,7 @@ class GUI {
   PVector gameDataScale = new PVector();
   public ArrayList<String> msgList = new ArrayList<String>();
   float gap = 10;
+  String currentScene = "game";
 
 
   GUI(float w, float h, float w2, float h2) {

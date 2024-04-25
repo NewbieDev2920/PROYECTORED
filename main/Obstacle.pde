@@ -33,8 +33,10 @@ class Obstacle {
 
   void effect() {
     if (type == "spike") {
-      if (!character.isInvincible)
+      if (!character.isInvincible) {
         character.hearts--;
+        character.isInvincible = true;
+      }
     }
   }
 }
