@@ -10,6 +10,7 @@ class Map {
   XML xml;
   XML[] objectGroup;
   XML[] colObjects;
+  XML[] specialObjects;
   Dictionary<String, PImage> tileSheets = new Hashtable<>();
   //ArrayList<PImage> tileSheets = new ArrayList<PImage>();
   //String[] firstIDs;
@@ -26,7 +27,6 @@ class Map {
   }
 
   void paint() {
-    //POSIBLE ERRROR DE TILE MAL DIBUJADO
     String ID;
     PImage sprite;
     for (int i = 0; i < mapHeight; i++) {
@@ -38,21 +38,71 @@ class Map {
         }
       }
     }
+    
+    for (int i = 0; i < mapHeight; i++) {
+      for (int j = 0; j < mapWidth; j++) {
+        ID = decorationPseudoMatrix[i*(mapWidth-1)+j+i];
+        if (!ID.equals("0")) {
+          sprite = tileDict.get(ID);
+          image(sprite, tileWidth*j, tileHeight*i);
+        }
+      }
+    }
   }
 
   void addCollision() {
-    PVector position = new PVector();
-    PVector scale = new PVector();
+    float x, y , w, h;
     for (XML obj : colObjects) {
-      position.x = obj.getFloat("x");
-      position.y = obj.getFloat("y");
-      scale.x = obj.getFloat("width");
-      scale.y = obj.getFloat("height");
-      Collider col = new Collider(position.x, position.y, scale.x, scale.y, "static");
-      col.centerCollider(position, scale);
+      x = obj.getFloat("x");
+      y = obj.getFloat("y");
+      w = obj.getFloat("width");
+      h = obj.getFloat("height");
+      Collider col = new Collider(x, y, w, h, "static");
+      col.centerCollider(new PVector(x,y), new PVector(w,h));
       col.calcCenterPoint();
       colliderList.add(col);
     }
+  }
+  
+  void addSpecialObjects(){
+     float x, y , w, h;
+     String name;
+     for(XML obj: specialObjects){
+       name = obj.getString("name");
+       x = obj.getFloat("x");
+       y = obj.getFloat("y");
+       w = obj.getFloat("width");
+       h = obj.getFloat("height");
+       if("spawnpoint".equals(name)){
+         
+       }
+       else if("deathzone".equals(name)){
+         
+       }
+       else if("finish".equals(name)){
+         gm.finishLine.init("level", x,y,w,h);
+       }
+       else if("spike".equals(name)){
+         Obstacle o = new Obstacle();
+         o.init("spike",x,y,w,h);
+       }
+       else if("soul".equals(name)){
+         //Se le reduce 8 de anchura y altura, debido a que el tile esta a 16 en Tiled
+         Collectable c = new Collectable();
+         c.init("soul", x, y,w-8,h-8);
+       }
+       else if("heart".equals(name)){
+         Collectable c = new Collectable();
+         c.init("heart",x,y,w-8,h-8);
+       }
+       else if("enemy".equals(name)){
+         
+       }
+       else{
+          println("OBJETO ESPECIAL NO ENCONTRADO, PORFAVOR REVISAR PROYECTO DE TILED"); 
+       }
+       
+     }
   }
 
   void init(String XMLpath) {
@@ -72,8 +122,15 @@ class Map {
       if (objectGroup[i].getString("name").equals("COLISIONES")) {
         colObjects = objectGroup[i].getChildren();
       }
+      else if(objectGroup[i].getString("name").equals("ESPECIAL")){
+        specialObjects = objectGroup[i].getChildren();
+      }
+      else{
+         println("CAPA DE OBJETOS NO ENCONTRADA, PORFAVOR REVISAR PROYECTO DE TILED");
+      }
     }
     addCollision();
+    addSpecialObjects();
   }
 
   void loadTileSheets() {
@@ -124,7 +181,6 @@ class Map {
     for (int i = 0; i < layers.length; i++) {
       if (layers[i].getString("name").equals("SOLIDOS")) {
         solidPseudoMatrix = layers[i].getChild("data").getContent().split(",");
-        print(solidPseudoMatrix);
       } else if (layers[i].getString("name").equals("DECORACION")) {
         decorationPseudoMatrix = layers[i].getChild("data").getContent().split(",");
       } else {
@@ -144,18 +200,26 @@ class Map {
         ID = solidPseudoMatrix[i*(mapWidth-1)+j+i];
         if (!ID.equals("0")) {
           println(ID);
-          //EL PROBLEMA ESTA EN EL PIMAGE.GET()
           for (int k = 0; k < tileSheets.size(); k++) {
             PImage tileSheet = tileSheets.get(keys.get(k));
             int[] pos = mapIdtoSheetId(ID, tileSheet);
             tileSprite = tileSheet.get(tileWidth*(pos[0]-1), tileHeight*pos[1], tileWidth, tileHeight);
             tileDict.put(ID, tileSprite);
-            /*if (k == keys.size()-1) {
-             tileSprite = tileSheets.get(keys.get(k)).get(tileWidth*j, tileHeight*i, tileWidth, tileHeight);
-             tileDict.put(ID, tileSprite);
-             } else if (Integer.parseInt(ID) >= Integer.parseInt(keys.get(k)) && Integer.parseInt(ID) <= Integer.parseInt(keys.get(k+1))) {
-             tileSprite = tileSheets.get(keys.get(k)).get(tileWidth*j, tileHeight*i, tileWidth, tileHeight);
-             tileDict.put(ID, tileSprite);*/
+          }
+        }
+      }
+    }
+    
+      for (int i = 0; i < mapHeight; i++) {
+      for (int j = 0; j < mapWidth; j++) {
+        ID = decorationPseudoMatrix[i*(mapWidth-1)+j+i];
+        if (!ID.equals("0")) {
+          println(ID);
+          for (int k = 0; k < tileSheets.size(); k++) {
+            PImage tileSheet = tileSheets.get(keys.get(k));
+            int[] pos = mapIdtoSheetId(ID, tileSheet);
+            tileSprite = tileSheet.get(tileWidth*(pos[0]-1), tileHeight*pos[1], tileWidth, tileHeight);
+            tileDict.put(ID, tileSprite);
           }
         }
       }

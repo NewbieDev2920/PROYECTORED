@@ -15,6 +15,7 @@ class Obstacle {
     if (type == "spike") {
       //sprite momentaneo
       this.spritePath = "test/spikedemo.png";
+      gm.spikeList.add(this);
     }
     sprite.init(spritePath);
     col = new Collider(position.x, position.y, scale.x, scale.y, "interactable");

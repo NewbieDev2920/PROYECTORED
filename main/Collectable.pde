@@ -15,10 +15,11 @@ class Collectable {
     this.scale.y = h;
     if (type == "soul") {
       spritePath = spritePath+type+".png";
-      println(spritePath);
-      soulList.add(this);
-    } else if (type == "powerup") {
-      spritePath = spritePath+"NOT AVALIABLE YET"+"png";
+      gm.soulList.add(this);
+    } else if (type == "heart") {
+      //../assets/sprites/gui/red.png
+      spritePath = spritePath+type+".png";
+      gm.heartList.add(this);
     }
     sprite.init(spritePath);
     col = new Collider(position.x, position.y, scale.x, scale.y, "interactable");
@@ -41,7 +42,12 @@ class Collectable {
     if (type == "soul") {
       character.soulScore++;
       enabled = false;
-      soulList.remove(this);
+      gm.soulList.remove(this);
+    }
+    else if(type == "heart"){
+      character.hearts++;
+      enabled = false;
+      gm.heartList.remove(this);
     }
   }
 }

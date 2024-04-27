@@ -20,10 +20,14 @@
  ------------------------
  ASPECTOS A DESARROLLAR
  ------------------------
- $ Mejorar el sistema de colisiones
- $ Añadir animaciones
- $ Añadir sistema de audio
- $ Mapa pulir
+ $ Mejorar el sistema de colisiones (C)
+ $ Diseñar y terminar el menu (A y C)
+ $ diseñar y terminar el GUI (A)
+ $ Añadir animaciones (M y C)
+ $ Añadir sistema de audio (M)
+ $ Añadir las otras capas del Mapa (C)
+ $ Añadir aceleracion gravitacional (Puede que tambien de movimiento) (C)
+ $ Añadir Enemigos (C)
  
  */
 
@@ -36,19 +40,15 @@
 
 //Inicializacion de objetos
 //------------------------------------------------------------
+
 GameManager gm = new GameManager();
+public ArrayList<Collider> colliderList = new ArrayList<Collider>();
+Audio audio = new Audio();
 Player character = new Player(2, 2, 30, 31);
 GUI gui = new GUI(120, 100, 190, 60);
-public ArrayList<Collider> colliderList = new ArrayList<Collider>();
-public ArrayList<Collectable> soulList = new ArrayList<Collectable>();
-public ArrayList<Obstacle> obstacleList = new ArrayList<Obstacle>();
 Map map = new Map("campaign");
-Collectable soul1 = new Collectable();
-Collectable soul2 = new Collectable();
-Obstacle spike1 = new Obstacle();
-FinishLine door = new FinishLine();
 
-PImage testImage;
+
 //------------------------------------------------------------
 
 void setup() {
@@ -60,35 +60,25 @@ void setup() {
   map.loadTileSheets();
   map.loadMapMatrix();
   map.loadTiles();
-  //mapFile = new Ptmx(this, "tileddemo1.tmx");
-  //gm.addCollidersToMap(mapFile);
+  audio.init();
   gui.debugEnabled = true;
   gui.init();
   character.init();
-  soul1.init("soul", 600, 200, 16, 16);
-  soul2.init("soul", 700,200,16,16);
-  spike1.init("spike", 400, 200, 16, 16);
-  door.init("level",800, 200, 16, 16);
 }
 
 void draw() {
   if (gui.currentScene == "game") {
     background(179, 215, 255);
-    //mapFile.draw();
     map.paint();
     character.updateDebug();
-    soul1.checkInteraction();
-    soul2.checkInteraction();
-    spike1.checkInteraction();
-    door.checkInteraction();
+    gm.specialsUpdate();
     character.move();
-    character.display();
-    gm.centerCamera(character);
     gm.checkStatus();
     gui.updatePosition(character.position);
     gui.debugDisplay();
     gui.displayGameData(character.hearts, character.soulScore);
-    camera(character.position.x, character.position.y, 400, character.position.x, character.position.y, 0, 0, 1, 0);
+    
+    camera(character.position.x, character.position.y, 600, character.position.x, character.position.y, 0, 0, 1, 0);
   }
   else if(gui.currentScene == "dead"){
     gui.deadScreen();
