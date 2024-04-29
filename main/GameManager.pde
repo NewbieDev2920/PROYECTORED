@@ -4,6 +4,7 @@ class GameManager {
   public ArrayList<Obstacle> spikeList = new ArrayList<Obstacle>();
   public ArrayList<Collectable> heartList = new ArrayList<Collectable>();
   public ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+  public ArrayList<Proyectile> bulletList = new ArrayList<Proyectile>();
   
   FinishLine finishLine = new FinishLine();
   
@@ -36,6 +37,11 @@ class GameManager {
      
      for( int i = 0; i < enemyList.size(); i++){
        enemyList.get(i).checkInteraction();
+     }
+     
+     for (int i = 0; i < bulletList.size(); i++){
+       bulletList.get(i).move();
+       bulletList.get(i).checkInteraction();
      }
      
   }

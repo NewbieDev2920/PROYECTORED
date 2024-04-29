@@ -15,6 +15,7 @@ class Collider {
   //0: Right, 1: Up, 2: Left, 3: Down
   boolean[] collisionFace = {false, false, false, false};
   boolean playerCollided;
+  boolean playerAttackCollided;
 
 
   Collider(float x, float y, float w, float h, String type) {
@@ -24,8 +25,21 @@ class Collider {
     this.scale.y = h;
     this.type = type;
   }
-  
-  void checkEnemyInteraction(){
+
+  void checkPlayerAttack() {
+    for (int i = 0; i < gm.enemyList.size(); i++) {
+      Collider target = gm.enemyList.get(i).col;
+      target.playerAttackCollided = false;
+      boolean lateralFace = origin.x + scale.x > target.origin.x && origin.x < target.origin.x + target.scale.x;
+      boolean frontalFace = origin.y + scale.y > target.origin.y && origin.y < target.origin.y + target.scale.y;
+
+      if (lateralFace && frontalFace) {
+        target.playerAttackCollided = true;
+      }
+    }
+  }
+
+  void checkEnemyInteraction() {
     for (int i = 0; i < gm.enemyList.size(); i++) {
       Collider target = gm.enemyList.get(i).col;
       target.playerCollided = false;
@@ -36,7 +50,6 @@ class Collider {
         target.playerCollided = true;
       }
     }
-    
   }
 
   void checkInteraction() {
@@ -107,5 +120,10 @@ class Collider {
   void calcCenterPoint() {
     centerPoint.x = origin.x + scale.x/2;
     centerPoint.y = origin.y + scale.y/2;
+  }
+
+  void display(int r, int g, int b) {
+    fill(r, g, b);
+    rect(origin.x, origin.y, scale.x, scale.y);
   }
 }

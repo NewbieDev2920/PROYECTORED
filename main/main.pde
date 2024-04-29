@@ -47,7 +47,8 @@ Audio audio = new Audio();
 Player character = new Player(5, 5, 30, 31);
 GUI gui = new GUI(120, 100, 190, 60);
 Map map = new Map("campaign");
-Enemy enemy = new Enemy();
+Enemy enemy1 = new Enemy();
+Enemy enemy2 = new Enemy();
 
 
 //------------------------------------------------------------
@@ -65,8 +66,10 @@ void setup() {
   gui.debugEnabled = true;
   gui.init();
   character.init();
-  enemy.init("black", new PVector(40*16,0*16), 50);
-  gm.enemyList.add(enemy);
+  enemy1.init("black", new PVector(40*16,0*16), 150);
+  enemy2.init("gray", new PVector(40*16,0*16),50);
+  gm.enemyList.add(enemy1);
+  gm.enemyList.add(enemy2);
 }
 
 void draw() {
@@ -77,7 +80,8 @@ void draw() {
     gm.specialsUpdate();
     character.move();
     gm.checkStatus();
-    enemy.move();
+    enemy1.move();
+    enemy2.move();
     gui.updatePosition(character.position);
     gui.debugDisplay();
     gui.displayGameData(character.hearts, character.soulScore);
@@ -117,6 +121,9 @@ void keyPressed() {
   else if(keyCode == ENTER){
      character.keyboardInput[4] = true; 
   }
+  else if(key == 'z'){
+     character.keyboardInput[5] = true; 
+  }
 }
 
 void keyReleased() {
@@ -131,6 +138,9 @@ void keyReleased() {
   }
   else if(keyCode == ENTER){
       character.keyboardInput[4] = false;
+  }
+  else if(key == 'z'){
+     character.keyboardInput[5] = false; 
   }
 }
 //--------------------------------------------------

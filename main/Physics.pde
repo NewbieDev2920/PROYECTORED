@@ -27,12 +27,14 @@ class Physics {
       velocity.x = 0;
     } else if (character.keyboardInput[0] && !col.collisionFace[0]) {
       velocity.x = speed;
+      character.direction = 1;
       if(walkAudioClock.timeElapsed(500)){
         audio.play("walk");  
       }
       
     } else if (character.keyboardInput[2] && !col.collisionFace[2]) {
       velocity.x = -speed;
+      character.direction = -1;
       if(walkAudioClock.timeElapsed(500)){
         audio.play("walk");  
       }
