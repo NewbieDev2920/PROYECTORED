@@ -3,6 +3,7 @@ class GameManager {
   public ArrayList<Collectable> soulList = new ArrayList<Collectable>();
   public ArrayList<Obstacle> spikeList = new ArrayList<Obstacle>();
   public ArrayList<Collectable> heartList = new ArrayList<Collectable>();
+  public ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
   
   FinishLine finishLine = new FinishLine();
   
@@ -31,6 +32,10 @@ class GameManager {
      
      for(int i = 0; i < heartList.size(); i++){
         heartList.get(i).checkInteraction(); 
+     }
+     
+     for( int i = 0; i < enemyList.size(); i++){
+       enemyList.get(i).checkInteraction();
      }
      
   }

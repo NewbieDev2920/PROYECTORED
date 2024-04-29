@@ -33,7 +33,7 @@ class FinishLine{
    
    void checkInteraction(){
       sprite.display(position);
-      if(col.playerCollided){
+      if(col.playerCollided){ //<>//
         effect();
       }
    }

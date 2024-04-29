@@ -44,9 +44,10 @@
 GameManager gm = new GameManager();
 public ArrayList<Collider> colliderList = new ArrayList<Collider>();
 Audio audio = new Audio();
-Player character = new Player(2, 2, 30, 31);
+Player character = new Player(5, 5, 30, 31);
 GUI gui = new GUI(120, 100, 190, 60);
 Map map = new Map("campaign");
+Enemy enemy = new Enemy();
 
 
 //------------------------------------------------------------
@@ -64,16 +65,19 @@ void setup() {
   gui.debugEnabled = true;
   gui.init();
   character.init();
+  enemy.init("black", new PVector(40*16,0*16), 50);
+  gm.enemyList.add(enemy);
 }
 
 void draw() {
   if (gui.currentScene == "game") {
-    background(179, 215, 255);
+    background(12,0,22);
     map.paint();
     character.updateDebug();
     gm.specialsUpdate();
     character.move();
     gm.checkStatus();
+    enemy.move();
     gui.updatePosition(character.position);
     gui.debugDisplay();
     gui.displayGameData(character.hearts, character.soulScore);
@@ -91,7 +95,6 @@ void draw() {
   else if(gui.currentScene == "shop"){
     gui.shopScreen();
     camera(character.position.x, character.position.y, 1500, character.position.x, character.position.y, 0, 0, 1, 0);
-    
   }
   else{
      println("Scene: "+gui.currentScene+" doesn't exists"); 

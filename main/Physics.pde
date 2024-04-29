@@ -50,7 +50,7 @@ class Physics {
        velocity.y = 1;
        jumping = false;
     }
-
+    
     if (col.collisionFace[3]) {
       velocity.y = 0;
     }

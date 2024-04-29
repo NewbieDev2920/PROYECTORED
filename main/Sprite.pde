@@ -6,19 +6,22 @@ class Sprite {
   String PATH = "../assets/sprites/";
   
   void display(PVector pos) {
+    
     try{
       image(test, pos.x, pos.y);
     }
     catch(Exception e){
-      image(NULL, pos.x, pos.y);
+       rect(pos.x, pos.y, 20, 20); //<>//
     }
+  
   }
 
   void init(String path) {
-    PATH = PATH+path;
-    NULL = loadImage("NULL.png");
+    this.PATH = this.PATH+path;
+    NULL = loadImage("null.png");
     test = loadImage(PATH);
-    
+    println(test);  
+    println(PATH);
   }
 
   

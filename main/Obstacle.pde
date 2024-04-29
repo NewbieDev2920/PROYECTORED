@@ -17,6 +17,12 @@ class Obstacle {
       this.spritePath = "test/spikedemo.png";
       gm.spikeList.add(this);
     }
+    else if(type ==  "deathzone"){
+        
+    }
+    else if(type == "enemybody"){
+      
+    }
     sprite.init(spritePath);
     col = new Collider(position.x, position.y, scale.x, scale.y, "interactable");
     col.objectType = "obstacle";

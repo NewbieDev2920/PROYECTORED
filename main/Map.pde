@@ -11,6 +11,7 @@ class Map {
   XML[] objectGroup;
   XML[] colObjects;
   XML[] specialObjects;
+  XML[] enemyObjects;
   Dictionary<String, PImage> tileSheets = new Hashtable<>();
   //ArrayList<PImage> tileSheets = new ArrayList<PImage>();
   //String[] firstIDs;
@@ -99,7 +100,7 @@ class Map {
          
        }
        else{
-          println("OBJETO ESPECIAL NO ENCONTRADO, PORFAVOR REVISAR PROYECTO DE TILED"); 
+          println("OBJETO ESPECIAL NO ENCONTRADO("+name+"), PORFAVOR REVISAR PROYECTO DE TILED"); 
        }
        
      }
@@ -125,8 +126,11 @@ class Map {
       else if(objectGroup[i].getString("name").equals("ESPECIAL")){
         specialObjects = objectGroup[i].getChildren();
       }
+      else if(objectGroup[i].getString("name").equals("ENEMIGOS")){
+           enemyObjects = objectGroup[i].getChildren();
+      }
       else{
-         println("CAPA DE OBJETOS NO ENCONTRADA, PORFAVOR REVISAR PROYECTO DE TILED");
+        println("CAPA DE OBJETOS NO ENCONTRADA, PORFAVOR REVISAR PROYECTO DE TILED");
       }
     }
     addCollision();

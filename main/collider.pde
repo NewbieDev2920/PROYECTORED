@@ -24,6 +24,20 @@ class Collider {
     this.scale.y = h;
     this.type = type;
   }
+  
+  void checkEnemyInteraction(){
+    for (int i = 0; i < gm.enemyList.size(); i++) {
+      Collider target = gm.enemyList.get(i).col;
+      target.playerCollided = false;
+      boolean lateralFace = origin.x + scale.x > target.origin.x && origin.x < target.origin.x + target.scale.x;
+      boolean frontalFace = origin.y + scale.y > target.origin.y && origin.y < target.origin.y + target.scale.y;
+
+      if (lateralFace && frontalFace) {
+        target.playerCollided = true;
+      }
+    }
+    
+  }
 
   void checkInteraction() {
     for (int i = 0; i < colliderList.size(); i++) {

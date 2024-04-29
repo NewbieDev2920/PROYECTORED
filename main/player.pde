@@ -26,6 +26,7 @@ class Player {
     if (gui.currentScene == "game") {
       body.move();
       body.col.checkInteraction();
+      body.col.checkEnemyInteraction();
       position.x = body.position.x;
       position.y = body.position.y;
       sprite.display(position);

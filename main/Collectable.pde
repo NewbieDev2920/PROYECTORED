@@ -45,9 +45,12 @@ class Collectable {
       gm.soulList.remove(this);
     }
     else if(type == "heart"){
-      character.hearts++;
-      enabled = false;
-      gm.heartList.remove(this);
+      if(character.hearts < 3){
+        character.hearts++;
+        enabled = false;
+        gm.heartList.remove(this);
+      }
+      
     }
   }
 }
