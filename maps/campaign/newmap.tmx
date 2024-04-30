@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="100" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="80">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="100" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="87">
  <properties>
   <property name="colorFondo" value="NOCHE"/>
   <property name="tiempoLimite" type="int" value="0"/>
@@ -64,11 +64,15 @@
   <object id="77" name="soul" gid="1293" x="1148" y="254.5" width="16" height="16"/>
   <object id="78" name="spike" x="324.182" y="246.909" width="39.8182" height="8.42424"/>
   <object id="79" name="heart" gid="1295" x="1096" y="257.333" width="16" height="16"/>
+  <object id="85" name="spawnpoint" gid="1289" x="1552.67" y="63.3333" width="16" height="16"/>
+  <object id="86" name="deathzone" gid="1290" x="64.6667" y="262" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="6" name="ENEMIGOS">
   <properties>
    <property name="patrolRadius" type="int" value="0"/>
    <property name="type" value=""/>
   </properties>
+  <object id="81" name="black" gid="1296" x="1378.67" y="229" width="16" height="16"/>
+  <object id="82" name="gray" gid="1296" x="643.333" y="218" width="16" height="16"/>
  </objectgroup>
 </map>

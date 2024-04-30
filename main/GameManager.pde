@@ -1,5 +1,5 @@
 class GameManager {
-  
+  PVector spawnPoint;
   public ArrayList<Collectable> soulList = new ArrayList<Collectable>();
   public ArrayList<Obstacle> spikeList = new ArrayList<Obstacle>();
   public ArrayList<Collectable> heartList = new ArrayList<Collectable>();
@@ -35,9 +35,16 @@ class GameManager {
         heartList.get(i).checkInteraction(); 
      }
      
-     for( int i = 0; i < enemyList.size(); i++){
+     try{
+       for( int i = 0; i < enemyList.size(); i++){
+       enemyList.get(i).move();
        enemyList.get(i).checkInteraction();
+       }  
      }
+     catch(Exception e){
+       println("Reduccion de lista de enemigos");
+     }
+     
      
      for (int i = 0; i < bulletList.size(); i++){
        bulletList.get(i).move();

@@ -39,7 +39,7 @@ class Map {
         }
       }
     }
-    
+
     for (int i = 0; i < mapHeight; i++) {
       for (int j = 0; j < mapWidth; j++) {
         ID = decorationPseudoMatrix[i*(mapWidth-1)+j+i];
@@ -52,58 +52,70 @@ class Map {
   }
 
   void addCollision() {
-    float x, y , w, h;
+    float x, y, w, h;
     for (XML obj : colObjects) {
       x = obj.getFloat("x");
       y = obj.getFloat("y");
       w = obj.getFloat("width");
       h = obj.getFloat("height");
       Collider col = new Collider(x, y, w, h, "static");
-      col.centerCollider(new PVector(x,y), new PVector(w,h));
+      col.centerCollider(new PVector(x, y), new PVector(w, h));
       col.calcCenterPoint();
       colliderList.add(col);
     }
   }
-  
-  void addSpecialObjects(){
-     float x, y , w, h;
-     String name;
-     for(XML obj: specialObjects){
-       name = obj.getString("name");
-       x = obj.getFloat("x");
-       y = obj.getFloat("y");
-       w = obj.getFloat("width");
-       h = obj.getFloat("height");
-       if("spawnpoint".equals(name)){
-         
-       }
-       else if("deathzone".equals(name)){
-         
-       }
-       else if("finish".equals(name)){
-         gm.finishLine.init("level", x,y,w,h);
-       }
-       else if("spike".equals(name)){
-         Obstacle o = new Obstacle();
-         o.init("spike",x,y,w,h);
-       }
-       else if("soul".equals(name)){
-         //Se le reduce 8 de anchura y altura, debido a que el tile esta a 16 en Tiled
-         Collectable c = new Collectable();
-         c.init("soul", x, y,w-8,h-8);
-       }
-       else if("heart".equals(name)){
-         Collectable c = new Collectable();
-         c.init("heart",x,y,w-8,h-8);
-       }
-       else if("enemy".equals(name)){
-         
-       }
-       else{
-          println("OBJETO ESPECIAL NO ENCONTRADO("+name+"), PORFAVOR REVISAR PROYECTO DE TILED"); 
-       }
-       
-     }
+
+  void addSpecialObjects() {
+    float x, y, w, h;
+    String name;
+    for (XML obj : specialObjects) {
+      name = obj.getString("name");
+      x = obj.getFloat("x");
+      y = obj.getFloat("y");
+      w = obj.getFloat("width");
+      h = obj.getFloat("height");
+      if ("spawnpoint".equals(name)) {
+        gm.spawnPoint = new PVector(x, y);
+      } else if ("deathzone".equals(name)) {
+        Obstacle o = new Obstacle();
+        o.init("deathzone",x,y,w,h);
+      } else if ("finish".equals(name)) {
+        gm.finishLine.init("level", x, y, w, h);
+      } else if ("spike".equals(name)) {
+        Obstacle o = new Obstacle();
+        o.init("spike", x, y, w, h);
+      } else if ("soul".equals(name)) {
+        //Se le reduce 8 de anchura y altura, debido a que el tile esta a 16 en Tiled
+        Collectable c = new Collectable();
+        c.init("soul", x, y, w-8, h-8);
+      } else if ("heart".equals(name)) {
+        Collectable c = new Collectable();
+        c.init("heart", x, y, w-8, h-8);
+      } else {
+        println("OBJETO ESPECIAL NO ENCONTRADO("+name+"), PORFAVOR REVISAR PROYECTO DE TILED");
+      }
+    }
+  }
+
+  void addEnemyObjects() {
+    float x, y, w, h;
+    String name;
+    for (XML obj : enemyObjects) {
+      name = obj.getString("name");
+      x = obj.getFloat("x");
+      y = obj.getFloat("y");
+      w = obj.getFloat("width");
+      h = obj.getFloat("height");
+      if ("black".equals(name)) {
+        Enemy e = new Enemy();
+        e.init("black", new PVector(x, y), 160);
+        gm.enemyList.add(e);
+      } else if ("gray".equals(name)) {
+        Enemy e = new Enemy();
+        e.init("gray", new PVector(x, y), 160);
+        gm.enemyList.add(e);
+      }
+    }
   }
 
   void init(String XMLpath) {
@@ -122,19 +134,17 @@ class Map {
     for (int i = 0; i < objectGroup.length; i++) {
       if (objectGroup[i].getString("name").equals("COLISIONES")) {
         colObjects = objectGroup[i].getChildren();
-      }
-      else if(objectGroup[i].getString("name").equals("ESPECIAL")){
+      } else if (objectGroup[i].getString("name").equals("ESPECIAL")) {
         specialObjects = objectGroup[i].getChildren();
-      }
-      else if(objectGroup[i].getString("name").equals("ENEMIGOS")){
-           enemyObjects = objectGroup[i].getChildren();
-      }
-      else{
+      } else if (objectGroup[i].getString("name").equals("ENEMIGOS")) {
+        enemyObjects = objectGroup[i].getChildren();
+      } else {
         println("CAPA DE OBJETOS NO ENCONTRADA, PORFAVOR REVISAR PROYECTO DE TILED");
       }
     }
     addCollision();
     addSpecialObjects();
+    addEnemyObjects();
   }
 
   void loadTileSheets() {
@@ -213,8 +223,8 @@ class Map {
         }
       }
     }
-    
-      for (int i = 0; i < mapHeight; i++) {
+
+    for (int i = 0; i < mapHeight; i++) {
       for (int j = 0; j < mapWidth; j++) {
         ID = decorationPseudoMatrix[i*(mapWidth-1)+j+i];
         if (!ID.equals("0")) {
@@ -232,13 +242,13 @@ class Map {
 
   int[] mapIdtoSheetId(String tileid, PImage sheet) {
     int integer = 0;
-    try{
+    try {
       integer = Integer.parseInt(tileid);
     }
-    catch(Exception e){
+    catch(Exception e) {
       println("papi que cule error ya?");
     }
-    
+
 
     int linebreak = sheet.width/tileWidth;
     int row = (int)Math.floor(integer/linebreak);

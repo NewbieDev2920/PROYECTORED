@@ -1,5 +1,5 @@
 class Physics {
-  PVector position = new PVector(35, 0);
+  PVector position = new PVector();
   PVector velocity = new PVector();
   PVector acceleration = new PVector();
   float gravityAcceleration = 0.2;
@@ -10,8 +10,10 @@ class Physics {
   Clock walkAudioClock = new Clock();
   Collider col;
 
-  void init() {
-    col = new Collider(position.x, position.y, character.scale.x, character.scale.y, "mobile");
+  void init(PVector pos) {
+    this.position.x = pos.x;
+    this.position.y = pos.y;
+    col = new Collider(pos.x, pos.y, character.scale.x, character.scale.y, "mobile");
     col.centerCollider(position, character.scale);
     col.borderThickness = 0.2;
   }

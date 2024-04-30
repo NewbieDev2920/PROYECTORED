@@ -58,7 +58,7 @@ class Player {
   }
 
   void init() {
-    body.init();
+    body.init(position);
     sprite.init("player/default.png");
     gui.msgList.add(0, "Pos("+position.x+","+position.y+")");
     gui.msgList.add(1, "Vel("+body.velocity.x+","+body.velocity.y+")");

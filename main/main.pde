@@ -44,11 +44,9 @@
 GameManager gm = new GameManager();
 public ArrayList<Collider> colliderList = new ArrayList<Collider>();
 Audio audio = new Audio();
-Player character = new Player(5, 5, 30, 31);
+Player character;
 GUI gui = new GUI(120, 100, 190, 60);
 Map map = new Map("campaign");
-Enemy enemy1 = new Enemy();
-Enemy enemy2 = new Enemy();
 
 
 //------------------------------------------------------------
@@ -65,11 +63,8 @@ void setup() {
   audio.init();
   gui.debugEnabled = true;
   gui.init();
+  character =  new Player(gm.spawnPoint.x,gm.spawnPoint.y , 30, 31);
   character.init();
-  enemy1.init("black", new PVector(40*16,0*16), 150);
-  enemy2.init("gray", new PVector(40*16,0*16),50);
-  gm.enemyList.add(enemy1);
-  gm.enemyList.add(enemy2);
 }
 
 void draw() {
@@ -80,8 +75,6 @@ void draw() {
     gm.specialsUpdate();
     character.move();
     gm.checkStatus();
-    enemy1.move();
-    enemy2.move();
     gui.updatePosition(character.position);
     gui.debugDisplay();
     gui.displayGameData(character.hearts, character.soulScore);

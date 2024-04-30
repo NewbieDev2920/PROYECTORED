@@ -18,7 +18,8 @@ class Obstacle {
       gm.spikeList.add(this);
     }
     else if(type ==  "deathzone"){
-        
+       this.spritePath = "test/spikedemo.png";
+       gm.spikeList.add(this);  
     }
     else if(type == "enemybody"){
       
@@ -44,6 +45,9 @@ class Obstacle {
         character.hearts--;
         character.isInvincible = true;
       }
+    }
+    if(type == "deathzone"){
+       character.hearts = 0; 
     }
   }
 }

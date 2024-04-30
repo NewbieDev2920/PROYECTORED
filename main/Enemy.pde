@@ -50,7 +50,7 @@ class Enemy {
       println("este tipo de enemigo no existe");
     }
     col = new Collider(position.x, position.y, scale.x, scale.y, "mobile");
-    col.centerCollider(position, character.scale);
+    col.centerCollider(position, scale);
     col.borderThickness = 0.2;
   }
 
@@ -68,6 +68,12 @@ class Enemy {
         fill(255, 0, 0);
         rect(position.x, position.y, scale.x, scale.y);
       } else if (type == "gray") {
+        calcVel();
+        col.checkCollision();
+        position.add(velocity);
+        velocity.add(acceleration);
+        col.origin.x = position.x + col.centerGap.x;
+        col.origin.y = position.y + col.centerGap.y;
         fill(255, 255, 0);
         rect(position.x, position.y, scale.x, scale.y);
         shoot(5000);
