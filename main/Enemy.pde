@@ -36,12 +36,17 @@ class Enemy {
 
     if (type == "black") {
       patrolSpeed = 1;
-      chaseSpeed = 4;
+      chaseSpeed = 3.5;
       scale.x = 20;
       scale.y = 40;
       hearts = 10;
       this.visionRange = 100;
     } else if (type == "gray") {
+      patrolSpeed = 0.5;
+      scale.x = 20;
+      scale.y = 50;
+      hearts = 1;
+    } else if (type == "wizard") {
       patrolSpeed = 0.5;
       scale.x = 20;
       scale.y = 50;
@@ -76,17 +81,38 @@ class Enemy {
         col.origin.y = position.y + col.centerGap.y;
         fill(255, 255, 0);
         rect(position.x, position.y, scale.x, scale.y);
-        shoot(5000);
+        grayShoot(5000);
+      } else if (type == "wizard") {
+        calcVel();
+        col.checkCollision();
+        position.add(velocity);
+        velocity.add(acceleration);
+        col.origin.x = position.x + col.centerGap.x;
+        col.origin.y = position.y + col.centerGap.y;
+        fill(255, 255, 0);
+        rect(position.x, position.y, scale.x, scale.y);
+        wizardShoot(5000);
       }
       checkWounds();
     }
   }
 
-  void shoot(int interval) {
+  void grayShoot(int interval) {
     if (shootingClock.timeElapsed(interval)) {
       Proyectile kunai = new Proyectile();
       kunai.init("lineal", position, character.position, 5);
       gm.bulletList.add(kunai);
+    }
+  }
+
+  void wizardShoot(int interval) {
+    if (shootingClock.timeElapsed(interval)) {
+        for(int i = 0; i < 8; i++){
+           
+           Proyectile magicBall = new Proyectile();
+           magicBall.init("lineal", position, new PVector(position.x + 50*cos(i*QUARTER_PI), position.y + 50*sin(i*QUARTER_PI)), 3);
+           gm.bulletList.add(magicBall);
+        }
     }
   }
 

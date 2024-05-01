@@ -47,7 +47,7 @@ Audio audio = new Audio();
 Player character;
 GUI gui = new GUI(120, 100, 190, 60);
 Map map = new Map("campaign");
-
+Enemy enemy1 = new Enemy();
 
 //------------------------------------------------------------
 
@@ -65,15 +65,20 @@ void setup() {
   gui.init();
   character =  new Player(gm.spawnPoint.x,gm.spawnPoint.y , 30, 31);
   character.init();
+  enemy1.init("wizard", new PVector(5,5),160);
+  gm.enemyList.add(enemy1);
 }
 
 void draw() {
   if (gui.currentScene == "game") {
-    background(12,0,22);
+    //background(12,0,22);
+    background(255);
     map.paint();
     character.updateDebug();
     gm.specialsUpdate();
     character.move();
+    enemy1.move();
+    enemy1.checkInteraction();
     gm.checkStatus();
     gui.updatePosition(character.position);
     gui.debugDisplay();

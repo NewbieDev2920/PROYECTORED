@@ -1,4 +1,5 @@
 class GUI {
+  PFont font;
   PImage[] sprites = new PImage[3];
   boolean debugEnabled = false;
   PVector debugPos = new PVector();
@@ -46,6 +47,8 @@ class GUI {
     deadImage = loadImage("../assets/sprites/gui/death.png");
     victoryImage = loadImage("../assets/sprites/gui/victory.png");
     shopImage = loadImage("../assets/sprites/gui/shop.png");
+    font = createFont("Arial",32);
+    textFont(font);
   }
 
   void debugDisplay() {

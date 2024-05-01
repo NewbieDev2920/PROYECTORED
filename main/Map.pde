@@ -114,6 +114,10 @@ class Map {
         Enemy e = new Enemy();
         e.init("gray", new PVector(x, y), 160);
         gm.enemyList.add(e);
+      } else if ("wizard".equals(name)){
+         Enemy e = new Enemy();
+         e.init("wizard", new PVector(x,y),160);
+         gm.enemyList.add(e);
       }
     }
   }
