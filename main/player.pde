@@ -14,7 +14,7 @@ class Player {
   Clock invincibleClock = new Clock();
   Physics body = new Physics();
   //0: Right, 1: Up, 2: Left, 3: Down, 4: Enter
-  boolean[] keyboardInput = {false, false, false, false, false, false};
+  boolean[] keyboardInput = {false, false, false, false, false, false, false};
   float attackOffset = 30;
   Collider attackZone;
 

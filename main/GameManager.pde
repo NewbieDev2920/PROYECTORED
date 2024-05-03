@@ -41,6 +41,10 @@ class GameManager {
     } else if (character.soulScore % 10 != 0) {
       soulHeartGivingAllowed = true;
     }
+    
+    if(mag(spawnPoint.x - character.position.x, spawnPoint.y - character.position.y) >  2000000){
+      character.hearts = 0;
+    }
   }
 
   void initalConfiguration() {

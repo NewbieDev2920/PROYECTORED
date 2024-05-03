@@ -3,7 +3,8 @@ class Physics {
   PVector velocity = new PVector();
   PVector acceleration = new PVector();
   float gravityAcceleration = 0.2;
-  float speed = 5;
+  float speed = 4;
+  float speedLimit = 8;
   float jumpForce = 5;
   boolean jumping = false;
   Clock jumpClock = new Clock();
@@ -28,14 +29,31 @@ class Physics {
     if (character.keyboardInput[0] && character.keyboardInput[2]) {
       velocity.x = 0;
     } else if (character.keyboardInput[0] && !col.collisionFace[0]) {
-      velocity.x = speed;
+      if(character.keyboardInput[6] && velocity.x < speedLimit){
+        acceleration.x = 0.2;
+      }
+      else if(velocity.x >= speedLimit){
+        velocity.x = speedLimit;
+      }
+      else{
+        velocity.x = speed;  
+      }
       character.direction = 1;
       if(walkAudioClock.timeElapsed(500)){
         audio.play("walk");  
       }
       
     } else if (character.keyboardInput[2] && !col.collisionFace[2]) {
-      velocity.x = -speed;
+      if(character.keyboardInput[6] && velocity.x > -speedLimit){
+        acceleration.x = -0.2;
+      }
+      else if(velocity.x <= -speedLimit){
+         velocity.x = -speedLimit; 
+      }
+      else{
+         velocity.x = -speed; 
+      }
+ 
       character.direction = -1;
       if(walkAudioClock.timeElapsed(500)){
         audio.play("walk");  

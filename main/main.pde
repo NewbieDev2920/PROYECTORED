@@ -121,6 +121,9 @@ void keyPressed() {
   }
   else if(key == 'z'){
      character.keyboardInput[5] = true; 
+  }  
+  else if(keyCode == SHIFT){
+     character.keyboardInput[6] = true;
   }
 }
 
@@ -139,6 +142,9 @@ void keyReleased() {
   }
   else if(key == 'z'){
      character.keyboardInput[5] = false; 
+  }
+  else if(keyCode == SHIFT){
+     character.keyboardInput[6] = false;
   }
 }
 //--------------------------------------------------
