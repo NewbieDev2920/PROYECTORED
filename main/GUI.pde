@@ -66,6 +66,7 @@ class GUI {
   void displayGameData(int hearts, int souls) {
     fill(0, 0, 0, 127);
     rect(gameDataPos.x, gameDataPos.y, gameDataScale.x, gameDataScale.y);
+    rect(gameDataPos.x, gameDataPos.y-90, gameDataScale.x/2, gameDataScale.y);
     switch(hearts) {
     case 1:
       image(sprites[0], gameDataPos.x+gap, gameDataScale.y/2+gameDataPos.y-17);
@@ -91,9 +92,11 @@ class GUI {
       image(sprites[1], gameDataPos.x+gap+80, gameDataScale.y/2+gameDataPos.y-17);
       break;
     }
+    
     image(sprites[2], gameDataPos.x+gap+120, gameDataScale.y/2+gameDataPos.y-17);
     textSize(20);
     text(String.valueOf(souls), gameDataPos.x+gap+160, gameDataScale.y/2+gameDataPos.y+5);
+    text(String.valueOf(gm.gameTimer), gameDataPos.x+gap, gameDataScale.y/2+gameDataPos.y-90);
   }
 
   void deadScreen() {

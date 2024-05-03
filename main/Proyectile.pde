@@ -1,5 +1,8 @@
 class Proyectile {
+  float angle = -PI/3;
   float speed;
+  float birth;
+  float gravityAcceleration = 0.02;
   PVector origin = new PVector();
   PVector target = new PVector();
   PVector position = new PVector();
@@ -23,23 +26,40 @@ class Proyectile {
     if (type == "lineal") {
       calcLinealShotVel();
     }
+    else if(type == "parabolic"){
+      velocity.x = speed*cos(angle);
+      this.birth = millis(); 
+    }
     col = new Collider(position.x, position.y, 8, 8, "mobile");
     col.borderThickness = 0.2;
     colliderList.add(col);
   }
+ 
 
   void calcLinealShotVel() {
     //Calcula la velocidad del proyectil
     velocity.y = target.y-origin.y+character.scale.y/2  ;
     velocity.x = target.x-origin.x;
     velocity.normalize();
-    velocity.y *= speed;
-    velocity.x *= speed;
+    velocity.y *= speed * gm.gameSpeedMultiplier;
+    velocity.x *= speed * gm.gameSpeedMultiplier;
+  }
+  
+  void calcParabolicShotVel(){
+    float actualTime = millis()-birth;
+    velocity.y = speed*sin(angle)+gravityAcceleration*actualTime;
   }
 
   void move() {
     if (type == "lineal") {
       position.add(velocity);
+      col.origin.x = position.x + col.centerGap.x;
+      col.origin.y = position.y + col.centerGap.y;
+      display();
+    }
+    else if(type == "parabolic"){
+      position.add(velocity);
+      calcParabolicShotVel();
       col.origin.x = position.x + col.centerGap.x;
       col.origin.y = position.y + col.centerGap.y;
       display();

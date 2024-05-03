@@ -78,7 +78,7 @@ class Map {
         gm.spawnPoint = new PVector(x, y);
       } else if ("deathzone".equals(name)) {
         Obstacle o = new Obstacle();
-        o.init("deathzone",x,y,w,h);
+        o.init("deathzone", x, y, w, h);
       } else if ("finish".equals(name)) {
         gm.finishLine.init("level", x, y, w, h);
       } else if ("spike".equals(name)) {
@@ -86,8 +86,11 @@ class Map {
         o.init("spike", x, y, w, h);
       } else if ("soul".equals(name)) {
         //Se le reduce 8 de anchura y altura, debido a que el tile esta a 16 en Tiled
-        Collectable c = new Collectable();
-        c.init("soul", x, y, w-8, h-8);
+        int probability = int(random(2));
+        if (probability == 1) {
+          Collectable c = new Collectable();
+          c.init("soul", x, y, w-8, h-8);
+        }
       } else if ("heart".equals(name)) {
         Collectable c = new Collectable();
         c.init("heart", x, y, w-8, h-8);
@@ -101,23 +104,26 @@ class Map {
     float x, y, w, h;
     String name;
     for (XML obj : enemyObjects) {
+      int probability = int(random(2));
       name = obj.getString("name");
       x = obj.getFloat("x");
       y = obj.getFloat("y");
       w = obj.getFloat("width");
       h = obj.getFloat("height");
-      if ("black".equals(name)) {
-        Enemy e = new Enemy();
-        e.init("black", new PVector(x, y), 160);
-        gm.enemyList.add(e);
-      } else if ("gray".equals(name)) {
-        Enemy e = new Enemy();
-        e.init("gray", new PVector(x, y), 160);
-        gm.enemyList.add(e);
-      } else if ("wizard".equals(name)){
-         Enemy e = new Enemy();
-         e.init("wizard", new PVector(x,y),160);
-         gm.enemyList.add(e);
+      if (probability == 1) {
+        if ("black".equals(name)) {
+          Enemy e = new Enemy();
+          e.init("black", new PVector(x, y), 160);
+          gm.enemyList.add(e);
+        } else if ("gray".equals(name)) {
+          Enemy e = new Enemy();
+          e.init("gray", new PVector(x, y), 160);
+          gm.enemyList.add(e);
+        } else if ("wizard".equals(name)) {
+          Enemy e = new Enemy();
+          e.init("wizard", new PVector(x, y), 5);
+          gm.enemyList.add(e);
+        }
       }
     }
   }

@@ -47,7 +47,7 @@ Audio audio = new Audio();
 Player character;
 GUI gui = new GUI(120, 100, 190, 60);
 Map map = new Map("campaign");
-Enemy enemy1 = new Enemy();
+
 
 //------------------------------------------------------------
 
@@ -65,20 +65,18 @@ void setup() {
   gui.init();
   character =  new Player(gm.spawnPoint.x,gm.spawnPoint.y , 30, 31);
   character.init();
-  enemy1.init("wizard", new PVector(5,5),160);
-  gm.enemyList.add(enemy1);
+  audio.play("gameMusic");
 }
 
 void draw() {
   if (gui.currentScene == "game") {
     //background(12,0,22);
     background(255);
+    gm.updateTimer(gui.currentScene);
     map.paint();
     character.updateDebug();
     gm.specialsUpdate();
     character.move();
-    enemy1.move();
-    enemy1.checkInteraction();
     gm.checkStatus();
     gui.updatePosition(character.position);
     gui.debugDisplay();
@@ -87,6 +85,7 @@ void draw() {
     camera(character.position.x, character.position.y, 600, character.position.x, character.position.y, 0, 0, 1, 0);
   }
   else if(gui.currentScene == "dead"){
+    
     gui.deadScreen();
     camera(character.position.x, character.position.y, 1500, character.position.x, character.position.y, 0, 0, 1, 0);
   }
@@ -95,6 +94,7 @@ void draw() {
     camera(character.position.x, character.position.y, 1500, character.position.x, character.position.y, 0, 0, 1, 0);
   }
   else if(gui.currentScene == "shop"){
+    gm.updateTimer(gui.currentScene);
     gui.shopScreen();
     camera(character.position.x, character.position.y, 1500, character.position.x, character.position.y, 0, 0, 1, 0);
   }

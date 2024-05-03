@@ -1,6 +1,6 @@
 class Enemy {
   //patrol, chase
-  boolean[] status = {true, false};
+  boolean[] status = {true, false, false};
   int hearts;
   int patrolRadius;
   int chaseRadius;
@@ -39,7 +39,7 @@ class Enemy {
       chaseSpeed = 3.5;
       scale.x = 20;
       scale.y = 40;
-      hearts = 10;
+      hearts = 1;
       this.visionRange = 100;
     } else if (type == "gray") {
       patrolSpeed = 0.5;
@@ -48,9 +48,11 @@ class Enemy {
       hearts = 1;
     } else if (type == "wizard") {
       patrolSpeed = 0.5;
+      chaseSpeed = 0.5;
       scale.x = 20;
       scale.y = 50;
       hearts = 1;
+      this.visionRange = 500;
     } else {
       println("este tipo de enemigo no existe");
     }
@@ -81,8 +83,11 @@ class Enemy {
         col.origin.y = position.y + col.centerGap.y;
         fill(255, 255, 0);
         rect(position.x, position.y, scale.x, scale.y);
-        grayShoot(5000);
+        grayShoot(1000);
       } else if (type == "wizard") {
+        patrol();
+        chase();
+        attack();
         calcVel();
         col.checkCollision();
         position.add(velocity);
@@ -91,7 +96,6 @@ class Enemy {
         col.origin.y = position.y + col.centerGap.y;
         fill(255, 255, 0);
         rect(position.x, position.y, scale.x, scale.y);
-        wizardShoot(5000);
       }
       checkWounds();
     }
@@ -100,19 +104,18 @@ class Enemy {
   void grayShoot(int interval) {
     if (shootingClock.timeElapsed(interval)) {
       Proyectile kunai = new Proyectile();
-      kunai.init("lineal", position, character.position, 5);
+      kunai.init("parabolic", position, character.position, 5);
       gm.bulletList.add(kunai);
     }
   }
 
   void wizardShoot(int interval) {
     if (shootingClock.timeElapsed(interval)) {
-        for(int i = 0; i < 8; i++){
-           
-           Proyectile magicBall = new Proyectile();
-           magicBall.init("lineal", position, new PVector(position.x + 50*cos(i*QUARTER_PI), position.y + 50*sin(i*QUARTER_PI)), 3);
-           gm.bulletList.add(magicBall);
-        }
+      for (int i = 0; i < 8; i++) {
+        Proyectile magicBall = new Proyectile();
+        magicBall.init("lineal", position, new PVector(position.x + 50*cos(i*QUARTER_PI), position.y + 50*sin(i*QUARTER_PI)), 3);
+        gm.bulletList.add(magicBall);
+      }
     }
   }
 
@@ -122,22 +125,21 @@ class Enemy {
       if (position.x >= centralPoint.x + patrolRadius) {
         if (patrolClock.timeElapsed(1000)) {
           direction = -1;
-          position.x -= patrolSpeed;
+          position.x -= patrolSpeed * gm.gameSpeedMultiplier;
         }
       } else if (position.x <= centralPoint.x - patrolRadius) {
         if (patrolClock.timeElapsed(1000)) {
           direction = 1;
-          position.x += patrolSpeed;
+          position.x += patrolSpeed * gm.gameSpeedMultiplier;
         }
       } else {
 
         if (direction == 1) {
-          position.x += patrolSpeed;
+          position.x += patrolSpeed * gm.gameSpeedMultiplier;
         } else {
-          position.x -= patrolSpeed;
+          position.x -= patrolSpeed * gm.gameSpeedMultiplier;
         }
       }
-
       //Detectar al jugador
       if (direction == 1 && character.position.x < visionRange + position.x && character.position.x > position.x) {
         println("puede ser pa");
@@ -151,19 +153,33 @@ class Enemy {
     }
   }
 
+
   void chase() {
     //15 por ahora, despues es mas para que los enemigos ataquen por medio de su attackZone
-    int offset = 15;
-    if (status[1]) {
-      if (position.x > character.position.x + offset) {
-        position.x -= chaseSpeed;
-      } else if (position.x < character.position.x - offset) {
-        position.x += chaseSpeed;
+    if (type != "wizard") {
+      int offset = 15;
+      if (status[1]) {
+        if (position.x > character.position.x + offset) {
+          position.x -= chaseSpeed * gm.gameSpeedMultiplier;
+        } else if (position.x < character.position.x - offset) {
+          position.x += chaseSpeed * gm.gameSpeedMultiplier;
+        }
+      }
+    } else if (type == "wizard") {
+      if(status[1]){
+        status[1] = false;
+        status[2] = true;
+         attack(); 
       }
     }
   }
 
   void attack() {
+    if (status[2]) {
+      if (type == "wizard") {
+        wizardShoot(int(random(4, 15))*1000);
+      }
+    }
   }
 
   void calcVel() {
@@ -194,6 +210,7 @@ class Enemy {
     }
 
     if (hearts <= 0) {
+      audio.play("enemydeath");
       gm.enemyList.remove(this);
     }
   }

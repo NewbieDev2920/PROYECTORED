@@ -1,4 +1,5 @@
 class Player {
+  int animationStatus[];
   int hearts = 3;
   int soulScore = 0;
   //1: Derecha, -1: Izquierda
@@ -41,9 +42,13 @@ class Player {
         attackZone.origin.x = position.x - attackOffset;
         attackZone.origin.y = position.y + scale.y/3;
       }
+      
+      if(gm.gameTimer == 0){
+         hearts = 0; 
+      }
       attackZone.display(0,255,0);
       attack();
-      sprite.display(position);
+      sprite.play(0,150,position);
       checkInvincibleEffect();
     }
   }
@@ -60,6 +65,7 @@ class Player {
   void init() {
     body.init(position);
     sprite.init("player/default.png");
+    sprite.addAnimation("player/idle.png",32);
     gui.msgList.add(0, "Pos("+position.x+","+position.y+")");
     gui.msgList.add(1, "Vel("+body.velocity.x+","+body.velocity.y+")");
     gui.msgList.add(2, "speed("+body.speed+") jumpForce("+body.jumpForce+")");
