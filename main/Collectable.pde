@@ -21,6 +21,9 @@ class Collectable {
       spritePath = spritePath+type+".png";
       gm.heartList.add(this);
     }
+    else if(type == "extratime"){
+         
+    }
     sprite.init(spritePath);
     col = new Collider(position.x, position.y, scale.x, scale.y, "interactable");
     col.objectType = "collectable";

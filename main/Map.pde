@@ -19,6 +19,7 @@ class Map {
   static final String SPRITEPATH = "../assets/sprites/map/";
   String[] solidPseudoMatrix;
   String[] decorationPseudoMatrix;
+  String[] backgroundPseudoMatrix;
 
   Map(String type) {
     this.type = type;
@@ -30,6 +31,17 @@ class Map {
   void paint() {
     String ID;
     PImage sprite;
+    
+     for (int i = 0; i < mapHeight; i++) {
+      for (int j = 0; j < mapWidth; j++) {
+        ID = backgroundPseudoMatrix[i*(mapWidth-1)+j+i];
+        if (!ID.equals("0")) {
+          sprite = tileDict.get(ID);
+          image(sprite, tileWidth*j, tileHeight*i);
+        }
+      }
+    }
+    
     for (int i = 0; i < mapHeight; i++) {
       for (int j = 0; j < mapWidth; j++) {
         ID = solidPseudoMatrix[i*(mapWidth-1)+j+i];
@@ -104,13 +116,13 @@ class Map {
     float x, y, w, h;
     String name;
     for (XML obj : enemyObjects) {
-      int probability = int(random(2));
+      int probability = int(random(3));
       name = obj.getString("name");
       x = obj.getFloat("x");
       y = obj.getFloat("y");
       w = obj.getFloat("width");
       h = obj.getFloat("height");
-      if (probability == 1) {
+      if (probability == 1 || probability == 2) {
         if ("black".equals(name)) {
           Enemy e = new Enemy();
           e.init("black", new PVector(x, y), 160);
@@ -139,6 +151,7 @@ class Map {
 
     solidPseudoMatrix = new String[mapWidth*mapHeight];
     decorationPseudoMatrix = new String[mapWidth*mapHeight];
+    backgroundPseudoMatrix = new String[mapWidth* mapHeight];
 
     objectGroup = xml.getChildren("objectgroup");
     for (int i = 0; i < objectGroup.length; i++) {
@@ -207,7 +220,11 @@ class Map {
         solidPseudoMatrix = layers[i].getChild("data").getContent().split(",");
       } else if (layers[i].getString("name").equals("DECORACION")) {
         decorationPseudoMatrix = layers[i].getChild("data").getContent().split(",");
-      } else {
+      }
+      else if(layers[i].getString("name").equals("FONDO")){
+         backgroundPseudoMatrix = layers[i].getChild("data").getContent().split(","); 
+      }
+      else {
         println("This type of layer doesn't exists");
       }
     }
@@ -237,6 +254,21 @@ class Map {
     for (int i = 0; i < mapHeight; i++) {
       for (int j = 0; j < mapWidth; j++) {
         ID = decorationPseudoMatrix[i*(mapWidth-1)+j+i];
+        if (!ID.equals("0")) {
+          println(ID);
+          for (int k = 0; k < tileSheets.size(); k++) {
+            PImage tileSheet = tileSheets.get(keys.get(k));
+            int[] pos = mapIdtoSheetId(ID, tileSheet);
+            tileSprite = tileSheet.get(tileWidth*(pos[0]-1), tileHeight*pos[1], tileWidth, tileHeight);
+            tileDict.put(ID, tileSprite);
+          }
+        }
+      }
+    }
+    
+     for (int i = 0; i < mapHeight; i++) {
+      for (int j = 0; j < mapWidth; j++) {
+        ID = backgroundPseudoMatrix[i*(mapWidth-1)+j+i];
         if (!ID.equals("0")) {
           println(ID);
           for (int k = 0; k < tileSheets.size(); k++) {
