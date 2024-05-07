@@ -2,6 +2,8 @@ class Player {
   int animationStatus[];
   int hearts = 3;
   int soulScore = 0;
+  //In milliseconds
+  int attackInterval = 1000;
   //1: Derecha, -1: Izquierda
   int direction = 1;
   boolean isInvincible = false;
@@ -12,6 +14,7 @@ class Player {
   int time;
   Clock jumpClock = new Clock();
   Clock invincibleClock = new Clock();
+  Clock attackClock = new Clock();
   Physics body = new Physics();
   //0: Right, 1: Up, 2: Left, 3: Down, 4: Enter
   boolean[] keyboardInput = {false, false, false, false, false, false, false};
@@ -42,13 +45,13 @@ class Player {
         attackZone.origin.x = position.x - attackOffset;
         attackZone.origin.y = position.y + scale.y/3;
       }
-      
-      if(gm.gameTimer == 0){
-         hearts = 0; 
+
+      if (gm.gameTimer == 0) {
+        hearts = 0;
       }
-      attackZone.display(0,255,0);
+      attackZone.display(0, 255, 0);
       attack();
-      sprite.play(0,150,position);
+      sprite.play(0, 150, position);
       checkInvincibleEffect();
     }
   }
@@ -65,7 +68,7 @@ class Player {
   void init() {
     body.init(position);
     sprite.init("player/default.png");
-    sprite.addAnimation("player/idle.png",32);
+    sprite.addAnimation("player/idle.png", 32);
     gui.msgList.add(0, "Pos("+position.x+","+position.y+")");
     gui.msgList.add(1, "Vel("+body.velocity.x+","+body.velocity.y+")");
     gui.msgList.add(2, "speed("+body.speed+") jumpForce("+body.jumpForce+")");
@@ -87,7 +90,9 @@ class Player {
 
   void attack() {
     if (keyboardInput[5]) {
-        attackZone.display(255,0,0);
+      if(attackClock.timeElapsed(attackInterval)){
+         attackZone.display(255, 0, 0); 
+      }
     }
   }
 }
