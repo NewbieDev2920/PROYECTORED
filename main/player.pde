@@ -1,5 +1,4 @@
 class Player {
-  int animationStatus[];
   int hearts = 3;
   int soulScore = 0;
   //In milliseconds
@@ -38,11 +37,12 @@ class Player {
       attackZone.checkPlayerAttack();
       position.x = body.position.x;
       position.y = body.position.y;
+      body.col.display(50,255,50);
       if (direction == 1) {
         attackZone.origin.x = position.x + scale.x + attackOffset;
         attackZone.origin.y = position.y + scale.y/3;
       } else {
-        attackZone.origin.x = position.x - attackOffset;
+        attackZone.origin.x = position.x - scale.x -attackOffset;
         attackZone.origin.y = position.y + scale.y/3;
       }
 
@@ -51,7 +51,7 @@ class Player {
       }
       attackZone.display(0, 255, 0);
       attack();
-      sprite.play(0, 150, position);
+      manageAnimation();
       checkInvincibleEffect();
     }
   }
@@ -68,7 +68,16 @@ class Player {
   void init() {
     body.init(position);
     sprite.init("player/default.png");
-    sprite.addAnimation("player/idle.png", 32);
+    sprite.addAnimation("player/idle.png", 64);
+    sprite.addAnimation("player/run.png", 64);
+    sprite.addAnimation("player/runleft.png", 64);
+    sprite.addAnimation("player/jump.png",64);
+    sprite.addAnimation("player/fall.png",64);
+    sprite.addAnimation("player/jumpleft.png",64);
+    sprite.addAnimation("player/fallleft.png",64);
+    sprite.addAnimation("player/attack.png", 64);
+    sprite.offsetX = -25;
+    sprite.offsetY = -27;
     gui.msgList.add(0, "Pos("+position.x+","+position.y+")");
     gui.msgList.add(1, "Vel("+body.velocity.x+","+body.velocity.y+")");
     gui.msgList.add(2, "speed("+body.speed+") jumpForce("+body.jumpForce+")");
@@ -90,9 +99,36 @@ class Player {
 
   void attack() {
     if (keyboardInput[5]) {
-      if(attackClock.timeElapsed(attackInterval)){
-         attackZone.display(255, 0, 0); 
+      if (attackClock.timeElapsed(attackInterval)) {
+        attackZone.display(255, 0, 0);
       }
+    }
+  }
+
+  void manageAnimation() {
+    if(false){
+      
+    }
+    else if(!body.col.collisionFace[3] && body.velocity.y < 0 && direction == 1){
+      sprite.play(3, 1000, position);
+    }
+    else if(!body.col.collisionFace[3] && body.velocity.y > 0 && direction == 1){
+      sprite.play(4, 1000, position);
+    }
+    else if(!body.col.collisionFace[3] && body.velocity.y < 0 && direction == -1){
+      sprite.play(5, 1000, position);
+    }
+    else if(!body.col.collisionFace[3] && body.velocity.y > 0 && direction == -1){
+      sprite.play(6, 1000, position);
+    }
+    else if (keyboardInput[0] && body.col.collisionFace[3]) {
+      sprite.play(1, 50, position);
+    }
+    else if(keyboardInput[2] && body.col.collisionFace[3]){
+      sprite.play(2, 50, position);
+    }
+    else {
+      sprite.play(0, 150, position);
     }
   }
 }

@@ -1,4 +1,4 @@
-import processing.data.XML;
+/*import processing.data.XML;
 class GameLoader{
   
   XML loader;
@@ -7,4 +7,4 @@ class GameLoader{
   String soulAccumulation = "";
   String finalText = "<map>"+mapType+mapName+"</map><souls>"+soulAccumulation+"</souls>";
   
-}
+}*/

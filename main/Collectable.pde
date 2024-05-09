@@ -42,6 +42,7 @@ class Collectable {
   }
 
   void effect() {
+    audio.play("pickup");
     if (type == "soul") {
       character.soulScore++;
       enabled = false;
