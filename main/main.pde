@@ -46,7 +46,9 @@ public ArrayList<Collider> colliderList = new ArrayList<Collider>();
 Audio audio = new Audio();
 Player character;
 GUI gui = new GUI(120, 100, 190, 60);
+Loader loader = new Loader();
 Map map = new Map("campaign");
+
 
 
 //------------------------------------------------------------
@@ -56,7 +58,7 @@ void setup() {
   fullScreen(P3D);
   noSmooth();
   noStroke();
-  map.init("../maps/campaign/mapa2.tmx");
+  map.init(loader.getLoad());
   map.loadTileSheets();
   map.loadMapMatrix();
   map.loadTiles();

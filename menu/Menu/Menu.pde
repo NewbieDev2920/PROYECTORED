@@ -6,8 +6,10 @@ SoundFile music;
 Button play = new Button(437, 162, 101, 40, "play");
 Button settings = new Button(412, 206, 158, 30, "settings");
 Button credits = new Button(414, 243, 156, 27, "credits");
-Button howToPlay = new Button(414, 280, 156, 27, "howToPlay"); // New button
+Button howToPlay = new Button(414, 280, 156, 27, "howtoplay"); // New button
+Button back = new Button(120, 90, 156, 27, "return");
 String currentScene = "mainmenu";
+GameLoader gameload = new GameLoader();
 
 void setup() {
   size(982, 572);
@@ -23,10 +25,7 @@ void setup() {
 void draw() {
   if (currentScene == "mainmenu") {
     image(background, 13, 0);
-    play.display();
-    settings.display();
-    credits.display();
-    howToPlay.display(); // Display new button
+     // Display new button
 
     /*if (play.hovered()) {
      play.highlight();
@@ -54,10 +53,12 @@ void draw() {
   } else if (currentScene == "browser") {
     fill(50);
     rect(width/4, 160, width/2, width/2);
-    listButtons(browseMaps(), 0, 0, 80);
+    listButtons(browseMaps(), 412, 206, 40);
+    back.display();
   } else if (currentScene == "settings") {
     fill(255, 255, 0);
     rect(width/4, 157, width/2, width/2);
+    back.display();
   } else if (currentScene == "credits") {
     fill(50);
     rect(width/4, 157, width/2, width/2);
@@ -65,20 +66,26 @@ void draw() {
     text("DESARROLLADORES : ALEJANDRO CUELLO, CARLOS DE LA ROSA, DALADIER", width/4+50, 157+50);
     text("SPRITES : @acewaydev, @Darkeyed19 @ @ScatteredReality", width/4+50, 157+100);
     text("MUSICA : LUCA FRANCINI", width/4+50, 157+150);
+    back.display();
   } else if (currentScene == "howToPlay") {
     fill(50);
     rect(width/4, 157, width/2, width/2);
     fill(240, 20, 20);
     text("HOW TO PLAY: Here you can add the instructions for the game.", width/4+50, 157+50);
+    back.display();
   }
 }
 
 void listButtons(String[] buttonTexts, float positionX, float positionY, int space) {
   for (int i = 1; i < buttonTexts.length; i++) {
     fill(0);
-    rect(positionX, positionY+i*space, 100, 50);
-    fill(255);
-    text(buttonTexts[i], positionX+5, positionY+i*space+50/2);
+    Button newMap = new Button(positionX, positionY+space*i, 158, 30, buttonTexts[i]);
+    newMap.display();
+    if(newMap.clicked()){
+        gameload.saveLoad("campaign", buttonTexts[i], "5");
+        launch("../../main/windows-amd64/main.exe");
+        exit();
+    }
   }
 }
 

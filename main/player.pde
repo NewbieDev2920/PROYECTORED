@@ -19,6 +19,7 @@ class Player {
   boolean[] keyboardInput = {false, false, false, false, false, false, false};
   float attackOffset = 30;
   Collider attackZone;
+  boolean isAttacking = false;
 
 
 
@@ -75,7 +76,8 @@ class Player {
     sprite.addAnimation("player/fall.png",64);
     sprite.addAnimation("player/jumpleft.png",64);
     sprite.addAnimation("player/fallleft.png",64);
-    sprite.addAnimation("player/attack.png", 64);
+    sprite.addAnimation("player/attack.png", 54,39);
+    sprite.addAnimation("player/attackleft.png",54,39);
     sprite.offsetX = -25;
     sprite.offsetY = -27;
     gui.msgList.add(0, "Pos("+position.x+","+position.y+")");
@@ -101,13 +103,26 @@ class Player {
     if (keyboardInput[5]) {
       if (attackClock.timeElapsed(attackInterval)) {
         attackZone.display(255, 0, 0);
+        isAttacking = true;
+        sprite.ended = true;
       }
     }
   }
 
   void manageAnimation() {
-    if(false){
-      
+    if(isAttacking && direction == 1){
+      sprite.playNoLoop(7, 50, position);
+      if(sprite.ended){
+         isAttacking = false; 
+         sprite.ended = false;
+      }
+    }
+    else if(isAttacking && direction == -1){
+       sprite.playNoLoop(8, 50, position);
+      if(sprite.ended){
+         isAttacking = false;
+         sprite.ended = false;
+      }
     }
     else if(!body.col.collisionFace[3] && body.velocity.y < 0 && direction == 1){
       sprite.play(3, 1000, position);

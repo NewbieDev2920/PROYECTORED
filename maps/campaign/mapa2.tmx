@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="155" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="86">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="155" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="93">
  <tileset firstgid="1" source="redtileset.tsx"/>
  <tileset firstgid="1289" source="gametiles.tsx"/>
  <layer id="1" name="FONDO" width="155" height="40">
@@ -187,7 +187,14 @@
   <object id="81" name="witch" gid="1296" x="1290" y="488" width="16" height="16"/>
   <object id="82" name="witch" gid="1296" x="1552" y="389" width="16" height="16"/>
   <object id="83" name="tocho" gid="1296" x="2086" y="480" width="16" height="16"/>
-  <object id="84" name="tocho" gid="1296" x="2039" y="470" width="16" height="16"/>
+  <object id="84" name="tocho" gid="1296" x="1424" y="433" width="16" height="16"/>
   <object id="85" name="wizard" gid="1296" x="1787" y="418" width="16" height="16"/>
+  <object id="86" name="witch" gid="1296" x="1355" y="440" width="16" height="16"/>
+  <object id="87" name="witch" gid="1296" x="1471" y="407" width="16" height="16"/>
+  <object id="88" name="black" gid="1296" x="817" y="442" width="16" height="16"/>
+  <object id="89" name="black" gid="1296" x="920" y="424" width="16" height="16"/>
+  <object id="90" name="black" gid="1296" x="958" y="447" width="16" height="16"/>
+  <object id="91" name="black" gid="1296" x="1044" y="474" width="16" height="16"/>
+  <object id="92" name="black" gid="1296" x="1098" y="472" width="16" height="16"/>
  </objectgroup>
 </map>

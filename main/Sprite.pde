@@ -9,6 +9,7 @@ class Sprite {
   PImage defaultImg;
   PImage NULL;
   String PATH = "../assets/sprites/";
+  boolean ended = false;
 
   void display(PVector pos) {
 
@@ -37,8 +38,8 @@ class Sprite {
     animationColl.add(spriteList);
     animationCollIndex.add(0);
   }
-  
-   void addAnimation(String path, int snapWidth, int snapHeight) {
+
+  void addAnimation(String path, int snapWidth, int snapHeight) {
     path = PATH+path;
     PImage image = loadImage(path);
     PImage cuttedImage;
@@ -58,6 +59,20 @@ class Sprite {
     if (spriteClock.timeElapsed(interval)) {
       if (index == spriteList.length-1) {
         animationCollIndex.set(animationIndex, 0);
+      } else {
+        animationCollIndex.set(animationIndex, index+1);
+      }
+    }
+  }
+
+  void playNoLoop(int animationIndex, int interval, PVector position) {
+    int index = animationCollIndex.get(animationIndex);
+    PImage[] spriteList = animationColl.get(animationIndex);
+    image(spriteList[index], position.x + offsetX, position.y + offsetY);
+    if (spriteClock.timeElapsed(interval)) {
+      if (index == spriteList.length-1) {
+        animationCollIndex.set(animationIndex, index);
+        ended = true;
       } else {
         animationCollIndex.set(animationIndex, index+1);
       }

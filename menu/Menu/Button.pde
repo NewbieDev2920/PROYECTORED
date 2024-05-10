@@ -5,14 +5,14 @@ class Button {
   String text;
   PVector textPos = new PVector();
 
-  Button(float x, float y, float w, float h, String dir) {
+  Button(float x, float y, float w, float h, String text) {
     this.position.x = x;
     this.position.y = y;
     this.scale.x = w;
     this.scale.y = h;
-    this.dir = dir;
     textPos.x = position.x + 5;
     textPos.y = position.y + scale.y/2;
+    this.text = text;
   }
 
   boolean clicked() {
@@ -30,7 +30,7 @@ class Button {
   }
   
   void hoverEffect() {
-    fill(255, 255, 0); // Change the color when hovered
+    fill(255, 153, 153); // Change the color when hovered
   }
   
   void display() {
@@ -39,8 +39,8 @@ class Button {
     } else {
       fill(255, 0, 0);
     }
-    //rect(position.x, position.y, scale.x, scale.y);
+    rect(position.x, position.y, scale.x, scale.y);
     fill(0);
-    //text(text, textPos.x, textPos.y);
+    text(text, textPos.x, textPos.y);
   }
 }
