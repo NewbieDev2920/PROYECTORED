@@ -63,9 +63,15 @@ void setup() {
   audio.init();
   gui.debugEnabled = true;
   gui.init();
-  character =  new Player(gm.spawnPoint.x,gm.spawnPoint.y , 30, 31);
+  character =  new Player(gm.spawnPoint.x,gm.spawnPoint.y , 14, 28);
   character.init();
-  audio.play("gameMusic");
+  if(int(random(2)) == 1){
+      audio.play("gameMusic1");  
+  }
+  else{
+     audio.play("gameMusic2"); 
+  }
+  
 }
 
 void draw() {
@@ -82,10 +88,9 @@ void draw() {
     gui.debugDisplay();
     gui.displayGameData(character.hearts, character.soulScore);
     
-    camera(character.position.x, character.position.y, 600, character.position.x, character.position.y, 0, 0, 1, 0);
+    camera(character.position.x, character.position.y, 450, character.position.x, character.position.y, 0, 0, 1, 0);
   }
   else if(gui.currentScene == "dead"){
-    
     gui.deadScreen();
     camera(character.position.x, character.position.y, 1500, character.position.x, character.position.y, 0, 0, 1, 0);
   }
@@ -96,7 +101,7 @@ void draw() {
   else if(gui.currentScene == "shop"){
     gm.updateTimer(gui.currentScene);
     gui.shopScreen();
-    camera(character.position.x, character.position.y, 1500, character.position.x, character.position.y, 0, 0, 1, 0);
+    camera(character.position.x, character.position.y, 1000, character.position.x, character.position.y, 0, 0, 1, 0);
   }
   else{
      println("Scene: "+gui.currentScene+" doesn't exists"); 

@@ -136,6 +136,16 @@ class Map {
           e.init("wizard", new PVector(x, y), 5);
           gm.enemyList.add(e);
         }
+        else if("witch".equals(name)){
+          Enemy e = new Enemy();
+          e.init("witch", new PVector(x,y),5);
+          gm.enemyList.add(e);
+        }
+        else if("tocho".equals(name)){
+          Enemy e = new Enemy();
+          e.init("tocho", new PVector(x,y),160);
+          gm.enemyList.add(e);
+        }
       }
     }
   }

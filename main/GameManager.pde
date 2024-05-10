@@ -27,11 +27,19 @@ class GameManager {
 
   void checkStatus() {
     if (character.hearts <= 0) {
-      if(playOnce){
-         audio.gameMusic.pause();
-         audio.play("gameover");
-         gui.currentScene = "dead"; 
-         playOnce = false;
+      if (playOnce) {
+        audio.gameMusic1.pause();
+        audio.gameMusic2.pause();
+        audio.play("gameover");
+        gui.currentScene = "dead";
+        playOnce = false;
+      }
+    } else if (gui.currentScene == "victory") {
+      if (playOnce) {
+        playOnce = true;
+        audio.gameMusic1.pause();
+        audio.gameMusic2.pause();
+        audio.play("victory");
       }
     }
 
@@ -41,8 +49,8 @@ class GameManager {
     } else if (character.soulScore % 10 != 0) {
       soulHeartGivingAllowed = true;
     }
-    
-    if(mag(spawnPoint.x - character.position.x, spawnPoint.y - character.position.y) >  2000000){
+
+    if (mag(spawnPoint.x - character.position.x, spawnPoint.y - character.position.y) >  2000000) {
       character.hearts = 0;
     }
   }
@@ -78,10 +86,13 @@ class GameManager {
       println("Reduccion de lista de enemigos");
     }
 
-
-    for (int i = 0; i < bulletList.size(); i++) {
-      bulletList.get(i).move();
-      bulletList.get(i).checkInteraction();
+    try {
+      for (int i = 0; i < bulletList.size(); i++) {
+        bulletList.get(i).move();
+      }
+    }
+    catch(Exception e) {
+      println("Reduccion de proyectiles");
     }
   }
 }
