@@ -39,8 +39,8 @@ class Button {
     } else {
       fill(255, 0, 0);
     }
-    rect(position.x, position.y, scale.x, scale.y);
+    //rect(position.x, position.y, scale.x, scale.y);
     fill(0);
-    text(text, textPos.x, textPos.y);
+    //text(text, textPos.x, textPos.y);
   }
 }

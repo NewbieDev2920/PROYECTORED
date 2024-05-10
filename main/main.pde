@@ -56,7 +56,7 @@ void setup() {
   fullScreen(P3D);
   noSmooth();
   noStroke();
-  map.init("../maps/campaign/newmap.tmx");
+  map.init("../maps/campaign/mapa2.tmx");
   map.loadTileSheets();
   map.loadMapMatrix();
   map.loadTiles();
@@ -77,7 +77,7 @@ void setup() {
 void draw() {
   if (gui.currentScene == "game") {
     //background(12,0,22);
-    background(255);
+    background(31,44,76);
     gm.updateTimer(gui.currentScene);
     map.paint();
     character.updateDebug();
@@ -93,6 +93,9 @@ void draw() {
   else if(gui.currentScene == "dead"){
     gui.deadScreen();
     camera(character.position.x, character.position.y, 1500, character.position.x, character.position.y, 0, 0, 1, 0);
+    if(character.keyboardInput[4] && gui.deadButtonHover == 1){
+       retry(); 
+    }
   }
   else if(gui.currentScene == "victory"){
     gui.victoryScreen();
@@ -106,6 +109,10 @@ void draw() {
   else{
      println("Scene: "+gui.currentScene+" doesn't exists"); 
   }
+}
+
+void retry(){
+    
 }
 
 //--------------------------------------------------

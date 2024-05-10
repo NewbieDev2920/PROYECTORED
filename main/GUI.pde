@@ -11,8 +11,8 @@ class GUI {
   PImage shopImage;
   public ArrayList<String> msgList = new ArrayList<String>();
   //1: Retry, 2: Return to menu
-  Clock buttonClock = new Clock();
   int deadButtonHover = 1;
+  Clock buttonClock = new Clock();
   //1: Continue, 2: Retry, 3: Return to menu
   int victoryButtonHover = 1;
   // Falta shopButtonHover
@@ -95,6 +95,7 @@ class GUI {
     
     image(sprites[2], gameDataPos.x+gap+120, gameDataScale.y/2+gameDataPos.y-17);
     textSize(20);
+    fill(230);
     text(String.valueOf(souls), gameDataPos.x+gap+160, gameDataScale.y/2+gameDataPos.y+5);
     text(String.valueOf(gm.gameTimer), gameDataPos.x+gap, gameDataScale.y/2+gameDataPos.y-90);
   }

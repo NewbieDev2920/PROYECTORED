@@ -1,6 +1,7 @@
 class Enemy {
   //patrol, chase
   boolean[] status = {true, false, false};
+  int offset = 15;
   int hearts;
   int patrolRadius;
   int chaseRadius;
@@ -46,18 +47,32 @@ class Enemy {
       scale.x = 20;
       scale.y = 40;
       hearts = 1;
+      sprite.offsetX = -8;
+      sprite.offsetY = 6;
+      sprite.addAnimation("enemies/black/idle.png", 30, 33);
+      sprite.addAnimation("enemies/black/idleleft.png", 30, 33);
+      sprite.addAnimation("enemies/black/run.png", 34, 33);
+      sprite.addAnimation("enemies/black/runleft.png", 34, 33);
       this.visionRange = 100;
     } else if (type == "gray") {
-      patrolSpeed = 0.5;
+      patrolSpeed = 1.5;
+      chaseSpeed = 2;
+      offset = 250;
       scale.x = 20;
       scale.y = 50;
       hearts = 1;
+      sprite.offsetX = -8;
+      sprite.offsetY = -18;
+      sprite.addAnimation("enemies/gray/idle.png", 36, 65);
+      sprite.addAnimation("enemies/gray/idleleft.png", 36, 65);
+      sprite.addAnimation("enemies/gray/walk.png", 36, 62);
+      sprite.addAnimation("enemies/gray/walkleft.png", 36, 62);
     } else if (type == "witch") {
       patrolSpeed = 0.5;
       chaseSpeed = 0.5;
       scale.x = 20;
       scale.y = 50;
-      hearts = 1;
+      hearts = 2;
       this.visionRange = 500;
       sprite.offsetX = -16;
       sprite.offsetY = -16;
@@ -68,7 +83,7 @@ class Enemy {
       chaseSpeed = 0.5;
       scale.x = 20;
       scale.y = 50;
-      hearts = 1;
+      hearts = 2;
       sprite.offsetX = -15;
       sprite.offsetY = -10;
       sprite.addAnimation("enemies/wizard/idle.png", 43, 55);
@@ -108,18 +123,44 @@ class Enemy {
         velocity.add(acceleration);
         col.origin.x = position.x + col.centerGap.x;
         col.origin.y = position.y + col.centerGap.y;
-        fill(255, 0, 0);
-        rect(position.x, position.y, scale.x, scale.y);
+        int runAnimVel = 100;
+        if (status[0]) {
+          runAnimVel = 90;
+        } else if (status[1]) {
+          runAnimVel = 40;
+        }
+
+        if (direction == 1 && velocity.x == 0) {
+          sprite.play(0, runAnimVel, position);
+        } else if (direction == -1 && velocity.x == 0) {
+          sprite.play(1, runAnimVel, position);
+        } else if (velocity.x > 0) {
+          sprite.play(2, runAnimVel, position);
+        } else if (velocity.x < 0) {
+          sprite.play(3, runAnimVel, position);
+        }
       } else if (type == "gray") {
+        patrol();
+        chase();
         calcVel();
         col.checkCollision();
         position.add(velocity);
         velocity.add(acceleration);
         col.origin.x = position.x + col.centerGap.x;
         col.origin.y = position.y + col.centerGap.y;
-        fill(255, 255, 0);
-        rect(position.x, position.y, scale.x, scale.y);
-        grayShoot(1000);
+        if(direction == 1 && character.position.x > position.x || direction == -1 && character.position.x < position.x){
+          grayShoot(int(random(4, 6))*1000);  
+        }
+        
+        if (direction == 1 && velocity.x == 0) {
+          sprite.play(0, 150, position);
+        } else if (direction == -1 && velocity.x == 0) {
+          sprite.play(1, 150, position);
+        } else if (direction == 1) {
+          sprite.play(2, 100, position);
+        } else if (direction == -1) {
+          sprite.play(3, 100, position);
+        }
       } else if (type == "witch") {
         patrol();
         chase();
@@ -161,6 +202,7 @@ class Enemy {
         velocity.add(acceleration);
         col.origin.x = position.x + col.centerGap.x;
         col.origin.y = position.y + col.centerGap.y;
+
         if (direction == 1 && velocity.x != 0) {
           sprite.play(0, 300, position);
         } else if (direction == -1 && velocity.x != 0) {
@@ -178,7 +220,8 @@ class Enemy {
   void grayShoot(int interval) {
     if (shootingClock.timeElapsed(interval)) {
       Proyectile kunai = new Proyectile();
-      kunai.init("parabolic", position, character.position, 5);
+      kunai.proyectileSprite = "red2";
+      kunai.init("lineal", position, character.position, 8);
       gm.bulletList.add(kunai);
     }
   }
@@ -223,11 +266,13 @@ class Enemy {
         if (patrolClock.timeElapsed(1000)) {
           direction = -1;
           velocity.x = -patrolSpeed * gm.gameSpeedMultiplier;
+          position.x -= patrolSpeed * gm.gameSpeedMultiplier;
         }
       } else if ( (position.x <= centralPoint.x - patrolRadius) || col.collisionFace[2]) {
         if (patrolClock.timeElapsed(1000)) {
           direction = 1;
           velocity.x = patrolSpeed * gm.gameSpeedMultiplier;
+          position.x += patrolSpeed * gm.gameSpeedMultiplier;
         }
       } else {
 
@@ -254,7 +299,7 @@ class Enemy {
   void chase() {
     //15 por ahora, despues es mas para que los enemigos ataquen por medio de su attackZone
     if (type != "wizard" && type != "witch" && type != "tocho") {
-      int offset = 15;
+
       if (status[1]) {
         if (position.x > character.position.x + offset) {
           velocity.x = -chaseSpeed * gm.gameSpeedMultiplier;
@@ -335,10 +380,16 @@ class Enemy {
 
     if (col.collisionFace[0]) {
       velocity.x = 0;
+      if (character.position.x < position.x) {
+        position.x -= chaseSpeed;
+      }
     }
 
     if (col.collisionFace[2]) {
       velocity.x = 0;
+      if (character.position.x > position.x) {
+        position.x += chaseSpeed;
+      }
     }
   }
 

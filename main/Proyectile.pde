@@ -50,6 +50,9 @@ class Proyectile {
     else if (proyectileSprite == "green") {
       sprite.addAnimation("enemies/proyectiles/greenspell.png", 16);
     }
+    else if(proyectileSprite == "red2"){
+      sprite.addAnimation("enemies/proyectiles/red2.png", 16);
+    }
     
     col = new Collider(position.x, position.y, 8, 8, "mobile");
     col.borderThickness = 0.2;
@@ -113,10 +116,4 @@ class Proyectile {
     }
   }
 
-  void displaySprite() {
-    if (proyectileSprite == "red") {
-    } else if (proyectileSprite == "blue") {
-    } else if (proyectileSprite == "green") {
-    }
-  }
 }

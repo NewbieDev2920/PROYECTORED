@@ -28,15 +28,15 @@ void draw() {
     credits.display();
     howToPlay.display(); // Display new button
 
-    if (play.hovered()) {
-      play.highlight();
-    } else if (settings.hovered()) {
-      settings.highlight();
-    } else if (credits.hovered()) {
-      credits.highlight();
-    } else if (howToPlay.hovered()) {
-      howToPlay.highlight();
-    }
+    /*if (play.hovered()) {
+     play.highlight();
+     } else if (settings.hovered()) {
+     settings.highlight();
+     } else if (credits.hovered()) {
+     credits.highlight();
+     } else if (howToPlay.hovered()) {
+     howToPlay.highlight();
+     }*/
 
     if (play.clicked()) {
       println("play");
@@ -54,7 +54,7 @@ void draw() {
   } else if (currentScene == "browser") {
     fill(50);
     rect(width/4, 160, width/2, width/2);
-    listButtons(browseMaps());
+    listButtons(browseMaps(), 0, 0, 80);
   } else if (currentScene == "settings") {
     fill(255, 255, 0);
     rect(width/4, 157, width/2, width/2);
@@ -73,18 +73,24 @@ void draw() {
   }
 }
 
+void listButtons(String[] buttonTexts, float positionX, float positionY, int space) {
+  for (int i = 1; i < buttonTexts.length; i++) {
+    fill(0);
+    rect(positionX, positionY+i*space, 100, 50);
+    fill(255);
+    text(buttonTexts[i], positionX+5, positionY+i*space+50/2);
+  }
+}
+
 String[] browseMaps() {
   File file = new File("../../PROYECTOALGO2/maps/campaign");
   String[] fileList = file.list();
   return fileList;
 }
 
- void display(){
-   fill(255,0,0);
-   rect(position.x, position.y, scale.x, scale.y);
-   fill(0);
-   text(text, textPos.x, textPos.y);
- }
- 
- 
- 
+void display() {
+  fill(255, 0, 0);
+  //rect(position.x, position.y, scale.x, scale.y);
+  fill(0);
+  //text(text, textPos.x, textPos.y);
+}
