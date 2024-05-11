@@ -105,8 +105,8 @@ class GUI {
     image(deadImage, character.position.x-deadImage.width/2, character.position.y-deadImage.height/2);
     switch(deadButtonHover) {
     case 1:
-      drawButton("Retry", character.position.x-deadImage.width/2, character.position.y+500, 400, 200, true);
-      drawButton("Return to menu", character.position.x-deadImage.width/2+500, character.position.y+500, 400, 200, false);
+      //drawButton("Retry", character.position.x-deadImage.width/2, character.position.y+500, 400, 200, true);
+      //drawButton("Return to menu", character.position.x-deadImage.width/2+500, character.position.y+500, 400, 200, false);
       if (character.keyboardInput[0]) {
         deadButtonHover++;
       }
@@ -117,8 +117,8 @@ class GUI {
       break;
 
     case 2:
-      drawButton("Retry", character.position.x-deadImage.width/2, character.position.y+500, 400, 200, false);
-      drawButton("Return to menu", character.position.x-deadImage.width/2+500, character.position.y+500, 400, 200, true);
+      //drawButton("Retry", character.position.x-deadImage.width/2, character.position.y+500, 400, 200, false);
+      //drawButton("Return to menu", character.position.x-deadImage.width/2+500, character.position.y+500, 400, 200, true);
       if (character.keyboardInput[2]) {
         deadButtonHover--;
       }
@@ -139,9 +139,9 @@ class GUI {
     image(victoryImage, character.position.x-victoryImage.width/2, character.position.y-victoryImage.height/2);
     switch(victoryButtonHover) {
     case 1:
-      drawButton("Continue", character.position.x-victoryImage.width/2, character.position.y+500, 400, 200, true);
-      drawButton("Retry", character.position.x-victoryImage.width/2+500, character.position.y+500, 400, 200, false);
-      drawButton("Return to menu", character.position.x-victoryImage.width/2+1000, character.position.y +500, 400, 200, false);
+      //drawButton("Continue", character.position.x-victoryImage.width/2, character.position.y+500, 400, 200, true);
+      //drawButton("Retry", character.position.x-victoryImage.width/2+500, character.position.y+500, 400, 200, false);
+      //drawButton("Return to menu", character.position.x-victoryImage.width/2+1000, character.position.y +500, 400, 200, false);
       if (character.keyboardInput[0] && buttonClock.timeElapsed(300)) {
         victoryButtonHover++;
 
@@ -149,9 +149,9 @@ class GUI {
       break;
 
     case 2:
-      drawButton("Continue", character.position.x-victoryImage.width/2, character.position.y+500, 400, 200, false);
-      drawButton("Retry", character.position.x-victoryImage.width/2+500, character.position.y+500, 400, 200, true);
-      drawButton("Return to menu", character.position.x-victoryImage.width/2+1000, character.position.y +500, 400, 200, false);
+      //drawButton("Continue", character.position.x-victoryImage.width/2, character.position.y+500, 400, 200, false);
+      //drawButton("Retry", character.position.x-victoryImage.width/2+500, character.position.y+500, 400, 200, true);
+      //drawButton("Return to menu", character.position.x-victoryImage.width/2+1000, character.position.y +500, 400, 200, false);
       if (character.keyboardInput[0] && buttonClock.timeElapsed(300)) {
         victoryButtonHover++;
     
@@ -164,9 +164,9 @@ class GUI {
       break;
 
     case 3:
-      drawButton("Continue", character.position.x-victoryImage.width/2, character.position.y+500, 400, 200, false);
-      drawButton("Retry", character.position.x-victoryImage.width/2+500, character.position.y+500, 400, 200, false);
-      drawButton("Return to menu", character.position.x-victoryImage.width/2+1000, character.position.y +500, 400, 200, true);
+      //drawButton("Continue", character.position.x-victoryImage.width/2, character.position.y+500, 400, 200, false);
+      //drawButton("Retry", character.position.x-victoryImage.width/2+500, character.position.y+500, 400, 200, false);
+      //drawButton("Return to menu", character.position.x-victoryImage.width/2+1000, character.position.y +500, 400, 200, true);
       if (character.keyboardInput[2] && buttonClock.timeElapsed(300)) {
         victoryButtonHover--;
 
@@ -179,7 +179,7 @@ class GUI {
     background(0);
     image(shopImage, character.position.x-shopImage.width/2, character.position.y-shopImage.width/2);
     textSize(50);
-    drawButton("PRESS ENTER", character.position.x-shopImage.width/2, character.position.y+400, 400, 200, true);
+    drawButton("PRESS ENTER", character.position.x-shopImage.width/2+140, character.position.y+400, 400, 100, true);
     if (character.keyboardInput[4]) {
       currentScene = "game";
     }
@@ -187,7 +187,7 @@ class GUI {
 
   void drawButton(String text, float x, float y, float w, float h, boolean hover) {
     int buttonTextGap = 5;
-    fill(105);
+    fill(1);
     rect(x, y, w, h);
     if (hover) {
       fill(240, 45, 45);

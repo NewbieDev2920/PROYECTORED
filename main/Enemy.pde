@@ -410,6 +410,7 @@ class Enemy {
 
   void checkWounds() {
     if (col.playerAttackCollided && character.keyboardInput[5] && character.attackClock.timeElapsed(character.attackInterval)) {
+      character.isAttacking = true;
       hearts--;
     }
 

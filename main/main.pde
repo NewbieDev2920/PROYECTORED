@@ -10,7 +10,6 @@
  DESARROLLADORES
  #  ALEJANDRO CUELLO
  #  CARLOS DE LA ROSA
- #  MARIA ANGEL MARTINEZ
  PROFESOR
  #  DALADIER
  SPRITES
@@ -65,21 +64,19 @@ void setup() {
   audio.init();
   gui.debugEnabled = true;
   gui.init();
-  character =  new Player(gm.spawnPoint.x,gm.spawnPoint.y , 14, 28);
+  character =  new Player(gm.spawnPoint.x, gm.spawnPoint.y, 14, 28);
   character.init();
-  if(int(random(2)) == 1){
-      audio.play("gameMusic1");  
+  if (int(random(2)) == 1) {
+    audio.play("gameMusic1");
+  } else {
+    audio.play("gameMusic2");
   }
-  else{
-     audio.play("gameMusic2"); 
-  }
-  
 }
 
 void draw() {
   if (gui.currentScene == "game") {
     //background(12,0,22);
-    background(31,44,76);
+    background(31, 44, 76);
     gm.updateTimer(gui.currentScene);
     map.paint();
     character.updateDebug();
@@ -89,32 +86,27 @@ void draw() {
     gui.updatePosition(character.position);
     gui.debugDisplay();
     gui.displayGameData(character.hearts, character.soulScore);
-    
+
     camera(character.position.x, character.position.y, 450, character.position.x, character.position.y, 0, 0, 1, 0);
-  }
-  else if(gui.currentScene == "dead"){
+  } else if (gui.currentScene == "dead") {
     gui.deadScreen();
     camera(character.position.x, character.position.y, 1500, character.position.x, character.position.y, 0, 0, 1, 0);
-    if(character.keyboardInput[4] && gui.deadButtonHover == 1){
-       retry(); 
+    if (character.keyboardInput[4] && gui.deadButtonHover == 1) {
+      retry();
     }
-  }
-  else if(gui.currentScene == "victory"){
+  } else if (gui.currentScene == "victory") {
     gui.victoryScreen();
     camera(character.position.x, character.position.y, 1500, character.position.x, character.position.y, 0, 0, 1, 0);
-  }
-  else if(gui.currentScene == "shop"){
+  } else if (gui.currentScene == "shop") {
     gm.updateTimer(gui.currentScene);
     gui.shopScreen();
     camera(character.position.x, character.position.y, 1000, character.position.x, character.position.y, 0, 0, 1, 0);
-  }
-  else{
-     println("Scene: "+gui.currentScene+" doesn't exists"); 
+  } else {
+    println("Scene: "+gui.currentScene+" doesn't exists");
   }
 }
 
-void retry(){
-    
+void retry() {
 }
 
 //--------------------------------------------------
@@ -129,15 +121,12 @@ void keyPressed() {
     character.keyboardInput[2] = true;
   } else if (key == 's' || keyCode == DOWN) {
     character.keyboardInput[3] = true;
-  }
-  else if(keyCode == ENTER){
-     character.keyboardInput[4] = true; 
-  }
-  else if(key == 'z'){
-     character.keyboardInput[5] = true; 
-  }  
-  else if(keyCode == SHIFT){
-     character.keyboardInput[6] = true;
+  } else if (keyCode == ENTER) {
+    character.keyboardInput[4] = true;
+  } else if (key == 'z') {
+    character.keyboardInput[5] = true;
+  } else if (keyCode == SHIFT) {
+    character.keyboardInput[6] = true;
   }
 }
 
@@ -150,15 +139,26 @@ void keyReleased() {
     character.keyboardInput[2] = false;
   } else if (key == 's' || keyCode == DOWN) {
     character.keyboardInput[3] = false;
-  }
-  else if(keyCode == ENTER){
-      character.keyboardInput[4] = false;
-  }
-  else if(key == 'z'){
-     character.keyboardInput[5] = false; 
-  }
-  else if(keyCode == SHIFT){
-     character.keyboardInput[6] = false;
+  } else if (keyCode == ENTER) {
+    character.keyboardInput[4] = false;
+  } else if (key == 'z') {
+    character.keyboardInput[5] = false;
+  } else if (keyCode == SHIFT) {
+    character.keyboardInput[6] = false;
   }
 }
 //--------------------------------------------------
+
+public static void execute(String program) {
+  Runtime app = Runtime.getRuntime();
+  try {
+    if (program == "menu") {
+      app.exec("");
+    } else if (program == "game") {
+      app.exec("main.pde");
+    }
+  }
+  catch(Exception e) {
+    println("Fallo en la inicializacion de programa");
+  }
+}

@@ -2,7 +2,6 @@ class Obstacle {
   PVector position = new PVector();
   PVector scale = new PVector();
   Collider col;
-  Sprite sprite = new Sprite();
   String spritePath;
   String type;
 
@@ -14,17 +13,14 @@ class Obstacle {
     this.scale.y = h;
     if (type == "spike") {
       //sprite momentaneo
-      this.spritePath = "test/spikedemo.png";
       gm.spikeList.add(this);
     }
     else if(type ==  "deathzone"){
-       this.spritePath = "test/spikedemo.png";
        gm.spikeList.add(this);  
     }
     else if(type == "enemybody"){
       
     }
-    sprite.init(spritePath);
     col = new Collider(position.x, position.y, scale.x, scale.y, "interactable");
     col.objectType = "obstacle";
     col.centerCollider(position, scale);
@@ -33,7 +29,6 @@ class Obstacle {
   }
 
   void checkInteraction() {
-    sprite.display(position);
     if (col.playerCollided) {
       effect();
     }

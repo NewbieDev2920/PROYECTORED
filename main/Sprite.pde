@@ -71,7 +71,7 @@ class Sprite {
     image(spriteList[index], position.x + offsetX, position.y + offsetY);
     if (spriteClock.timeElapsed(interval)) {
       if (index == spriteList.length-1) {
-        animationCollIndex.set(animationIndex, index);
+        animationCollIndex.set(animationIndex, 0);
         ended = true;
       } else {
         animationCollIndex.set(animationIndex, index+1);
